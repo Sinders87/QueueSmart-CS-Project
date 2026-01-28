@@ -1,0 +1,2 @@
+# QueueSmart-CS-Project
+# QueueSmart  QueueSmart is a queue management application designed to help users join and track service queues while enabling administrators to manage services and monitor usage.  This repository currently contains design documentation for Assignment 1 (A1), including system architecture, data model design, and role definitions.
