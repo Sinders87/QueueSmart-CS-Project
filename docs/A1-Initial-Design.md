@@ -17,11 +17,13 @@ Accurately estimating wait times is a challenge, especially when service duratio
 Discuss the development methodology your team plans to use:
 
 Which methodology will you follow (e.g., Agile, Scrum, Waterfall)?
+The methodology that we will follow will be Agile development.
 
 Why is this methodology appropriate for this project?
+This methodology is appropriate for this project because QueueSmart "is driven by customer descriptions of what is required" as stated by the second lecture. The scenarios will be provided as stated in our assignments. Agile was preferred over the other methodologies due to how Agile values adaptability, transparency, and incremental developments. We are also accustomed to this methodology as students and would align naturally with the goal in mind. 
 
 How will this approach help your team work across multiple assignments?
-
+The agile approach will help our team work across multiple assignments by allowing us to develop in increments and tackle portions of the application requirements one or several at a time instead of altogether. This allows us to be flexible and adjust as needed based on what we currently know about the project and what we begin to learn as the semester continues. Because we will not develop all at once, we can test what we have developed at the time and take a step back to fix any mistakes or problems that can occur.
 
 ## 3. High-Level Design / Architecture (6 points)
 
