@@ -2,12 +2,16 @@
 Discuss your initial thoughts on designing QueueSmart:
 
 Who are the main users of the system?
+The main users of QueueSmart are regular users who need to join a queue or schedule a service and administrators who manage services and queues. 
 
 How will users and administrators interact with the application?
+Users will interact with QueueSmart by logging in, joining or leaving queues, viewing their position and estimated wait time, and receiving notifications. Administrators will use the system to create and manage services, monitor queue status, and adjust priorities as needed.
 
 What are the most important features?
+Key features include real-time queue status, estimated wait times, and notifications when a user’s turn is approaching. As a possible design enhancement, the system could allow users to move up or reschedule when an earlier appointment becomes available due to cancellations, helping keep service slots filled.
 
 What challenges do you anticipate (e.g., long queues, notifications, inaccurate wait times)?
+Accurately estimating wait times is a challenge, especially when service durations vary or cancellations occur. Another challenge is handling rescheduling or queue adjustments in a way that fills open slots efficiently while still remaining fair and clear to users.
 
 ## 2. Development Methodology (2 points)
 Discuss the development methodology your team plans to use:
