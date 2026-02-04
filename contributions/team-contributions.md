@@ -5,7 +5,7 @@ GitHub commit history reflects these contributions.
 
 Storm Pino: High-level data model design, authentication and role-based access design, database-related documentation
 
-Member 2: UI/UX design concepts, user interaction flows, frontend planning
+Joel: UI/UX design concepts, user interaction flows, frontend planning
 
 aalakha: System context diagram creation, high-level architecture design, component interaction documentation
 
