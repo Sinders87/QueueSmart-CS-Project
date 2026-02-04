@@ -9,4 +9,4 @@ Member 2: UI/UX design concepts, user interaction flows, frontend planning
 
 aalakha: System context diagram creation, high-level architecture design, component interaction documentation
 
-Member 4: Problem statement development, development methodology description, documentation formatting and submission coordination
+Dennis: Problem statement development, development methodology description, documentation formatting and submission coordination
