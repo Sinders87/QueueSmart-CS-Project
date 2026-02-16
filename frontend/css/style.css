@@ -8,16 +8,16 @@ body {
 }
 
 .login-box {
-    background: white;
-    padding: 40px;
-    width: 320px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
-    text-align: center;
+background: white;
+padding: 40px;
+width: 320px;
+border-radius: 10px;
+box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
 }
 
 .login-box h2 {
-    margin-bottom: 20px;
+text-align: center;
+margin-bottom: 20px;
 }
 
 /* Only style text-like inputs */
@@ -39,14 +39,15 @@ body {
 }
 
 .login-box button {
-    width: 100%;
-    padding: 10px;
-    background: #444;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 12px;
+width: 100%;
+padding: 10px;
+background: #444;
+color: white;
+border: none;
+border-radius: 5px;
+cursor: pointer;
+margin-top: 12px;
+text-align: center;
 }
 
 .login-box button:hover {
@@ -54,8 +55,9 @@ body {
 }
 
 .link {
-    margin-top: 15px;
-    font-size: 14px;
+margin-top: 15px;
+font-size: 14px;
+text-align: center;
 }
 
 .link a {
