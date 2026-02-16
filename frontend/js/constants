@@ -1,0 +1,7 @@
+const LIMITS = {
+  serviceNameMax: 100,
+  descriptionMax: 300,
+  passwordMin: 6,
+  durationMin: 1,
+  durationMax: 180
+};
