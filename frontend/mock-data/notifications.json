@@ -1,1 +1,14 @@
-
+[
+  {
+    "id": 1,
+    "type": "queue_update",
+    "message": "You joined Academic Advising. Current position: 2",
+    "time": "2 min ago"
+  },
+  {
+    "id": 2,
+    "type": "status_change",
+    "message": "You are close to being served",
+    "time": "Just now"
+  }
+]
