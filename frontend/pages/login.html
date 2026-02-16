@@ -14,10 +14,19 @@
       <input id="email" type="email" placeholder="Email" required>
       <input id="password" type="password" placeholder="Password" required>
 
-      <div style="text-align:left; margin-top:10px;">
-        <div>Role</div>
-        <label><input type="radio" name="role" value="user"> User</label>
-        <label style="margin-left:10px;"><input type="radio" name="role" value="admin"> Admin</label>
+      <div class="role-box">
+        <div class="role-title">Role</div>
+
+        <label class="role-option">
+          <input type="radio" name="role" value="user">
+          <span>User</span>
+        </label>
+
+        <label class="role-option">
+          <input type="radio" name="role" value="admin">
+          <span>Admin</span>
+        </label>
+
         <div id="roleBox" class="field-error"></div>
       </div>
 
