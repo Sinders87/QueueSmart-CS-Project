@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>QueueSmart Login</title>
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8">
+  <title>QueueSmart Login</title>
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
 
-<div class="login-box">
+  <div class="login-box">
     <h2>QueueSmart Login</h2>
 
-    <form>
-        <input type="email" placeholder="Email" required>
-        <input type="password" placeholder="Password" required>
+    <form id="loginForm" novalidate>
+      <input id="email" type="email" placeholder="Email" required>
+      <input id="password" type="password" placeholder="Password" required>
 
-        <button type="submit">Login</button>
+      <div style="text-align:left; margin-top:10px;">
+        <div>Role</div>
+        <label><input type="radio" name="role" value="user"> User</label>
+        <label style="margin-left:10px;"><input type="radio" name="role" value="admin"> Admin</label>
+        <div id="roleBox" class="field-error"></div>
+      </div>
+
+      <button type="submit">Login</button>
     </form>
 
     <p class="link">
-        Don’t have an account? <a href="register.html">Register</a>
+      Don’t have an account? <a href="register.html">Register</a>
     </p>
-</div>
+  </div>
+
+  <script src="../js/validation.js"></script>
+  <script src="../js/auth.js"></script>
 
 </body>
 </html>
