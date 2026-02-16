@@ -1,1 +1,16 @@
-
+[
+  {
+    "id": 1,
+    "serviceId": 1,
+    "serviceName": "Academic Advising",
+    "date": "2026-02-10",
+    "outcome": "served"
+  },
+  {
+    "id": 2,
+    "serviceId": 2,
+    "serviceName": "Financial Aid Assistance",
+    "date": "2026-02-05",
+    "outcome": "left"
+  }
+]
