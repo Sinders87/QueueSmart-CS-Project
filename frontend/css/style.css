@@ -20,12 +20,22 @@ body {
     margin-bottom: 20px;
 }
 
-.login-box input {
+/* Only style text-like inputs */
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="text"],
+.login-box input[type="number"] {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+/* Radio buttons normal behavior */
+.login-box input[type="radio"] {
+    width: auto;
+    margin: 0;
 }
 
 .login-box button {
@@ -36,6 +46,7 @@ body {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 12px;
 }
 
 .login-box button:hover {
@@ -51,31 +62,30 @@ body {
     text-decoration: none;
     color: #555;
 }
+
+/* Validation error text */
 .field-error {
-  margin-top: 6px;
-  margin-bottom: 10px;
-  font-size: 13px;
-  color: #b00020;
-  text-align: left;
+    margin-top: 6px;
+    margin-bottom: 10px;
+    font-size: 13px;
+    color: #b00020;
+    text-align: left;
 }
+
+/* Role selection layout */
 .role-box {
-  margin-top: 10px;
-  text-align: left;
+    margin-top: 10px;
+    text-align: left;
 }
 
 .role-title {
-  font-size: 14px;
-  margin-bottom: 6px;
+    font-size: 14px;
+    margin-bottom: 6px;
 }
 
 .role-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 6px 0;
-}
-
-.role-option input {
-  width: auto;
-  margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
 }
