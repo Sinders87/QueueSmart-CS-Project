@@ -58,3 +58,24 @@ body {
   color: #b00020;
   text-align: left;
 }
+.role-box {
+  margin-top: 10px;
+  text-align: left;
+}
+
+.role-title {
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+
+.role-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.role-option input {
+  width: auto;
+  margin: 0;
+}
