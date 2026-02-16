@@ -15,10 +15,3 @@ Dennis: Problem statement development, development methodology description, docu
 
 Team Contributions — Assignment 2 (A2)
 
-Storm Pino: Login and registration screen implementation, client-side form validation, and authentication flow setup
-
-Joel: User and admin dashboard layout design, UI styling, and screen structure planning
-
-aalakha: Screen flow coordination, UI navigation connections, and front-end interaction organization
-
-Dennis: Assignment documentation, technology justification, screenshot compilation, and submission coordination
