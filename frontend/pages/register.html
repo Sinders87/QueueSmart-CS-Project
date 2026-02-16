@@ -1,1 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueueSmart Register</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<div class="login-box">
+  <h2>QueueSmart Register</h2>
+
+  <form id="registerForm" novalidate>
+    <input id="name" type="text" placeholder="Full Name" required>
+    <input id="email" type="email" placeholder="Email" required>
+    <input id="password" type="password" placeholder="Password" required>
+
+    <div style="text-align:left; margin-top:10px;">
+      <div>Role</div>
+      <label><input type="radio" name="role" value="user"> User</label>
+      <label style="margin-left:10px;"><input type="radio" name="role" value="admin"> Admin</label>
+      <div id="roleBox" class="field-error"></div>
+    </div>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <p class="link">
+    Already have an account? <a href="login.html">Login</a>
+  </p>
+</div>
+
+<script src="../js/validation.js"></script>
+<script src="../js/auth.js"></script>
+
+</body>
+</html>
 
