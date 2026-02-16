@@ -1,1 +1,34 @@
-
+[
+  {
+    "id": 1,
+    "name": "Academic Advising",
+    "description": "Meet with an academic advisor to discuss degree planning",
+    "expectedDuration": 15,
+    "priority": "medium",
+    "isActive": true
+  },
+  {
+    "id": 2,
+    "name": "Financial Aid Assistance",
+    "description": "Help with FAFSA and financial aid questions",
+    "expectedDuration": 20,
+    "priority": "high",
+    "isActive": true
+  },
+  {
+    "id": 3,
+    "name": "IT Help Desk",
+    "description": "Technical support for university systems",
+    "expectedDuration": 10,
+    "priority": "low",
+    "isActive": true
+  },
+  {
+    "id": 4,
+    "name": "Registration Support",
+    "description": "Assistance with course registration issues",
+    "expectedDuration": 12,
+    "priority": "medium",
+    "isActive": false
+  }
+]
