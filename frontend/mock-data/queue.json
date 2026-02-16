@@ -1,1 +1,27 @@
+[
+  {
+    "id": 101,
+    "serviceId": 1,
+    "userName": "Alex",
+    "status": "waiting",
+    "position": 1,
+    "estimatedWait": 0
+  },
+  {
+    "id": 102,
+    "serviceId": 1,
+    "userName": "Blake",
+    "status": "waiting",
+    "position": 2,
+    "estimatedWait": 15
+  },
+  {
+    "id": 201,
+    "serviceId": 2,
+    "userName": "Casey",
+    "status": "waiting",
+    "position": 1,
+    "estimatedWait": 0
+  }
+]
 
