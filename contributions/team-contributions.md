@@ -14,4 +14,7 @@ Dennis: Problem statement development, development methodology description, docu
 
 
 Team Contributions — Assignment 2 (A2)
-
+Storm Pino:
+Joel:
+aalakha:
+Dennis:
