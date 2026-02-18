@@ -1,22 +1,30 @@
-async function loadJson(path) {
+console.log("data.js loaded");
+
+async function fetchJson(path) {
   const res = await fetch(path);
-  if (!res.ok) throw new Error("Failed to load " + path);
+  if (!res.ok) {
+    throw new Error("Failed to load " + path + " (" + res.status + ")");
+  }
   return await res.json();
 }
 
-async function getServices() {
-  return await loadJson("../mock-data/services.json");
+async function loadServices() {
+  return await fetchJson("../mock-data/services.json");
 }
 
-async function getQueue() {
-  return await loadJson("../mock-data/queue.json");
+async function loadQueue() {
+  return await fetchJson("../mock-data/queue.json");
 }
 
-async function getHistory() {
-  return await loadJson("../mock-data/history.json");
+async function loadHistory() {
+  return await fetchJson("../mock-data/history.json");
 }
 
-async function getNotifications() {
-  return await loadJson("../mock-data/notifications.json");
+async function loadNotifications() {
+  return await fetchJson("../mock-data/notifications.json");
 }
 
+window.loadServices = loadServices;
+window.loadQueue = loadQueue;
+window.loadHistory = loadHistory;
+window.loadNotifications = loadNotifications;
