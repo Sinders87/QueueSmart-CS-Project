@@ -11,9 +11,15 @@
     <h2>QueueSmart Register</h2>
 
     <form id="registerForm" novalidate>
-      <input id="name" type="text" placeholder="Full Name" required>
-      <input id="email" type="email" placeholder="Email" required>
-      <input id="password" type="password" placeholder="Password" required>
+
+      <input id="name" name="name" type="text" placeholder="Full Name" required>
+      <div id="nameError" class="field-error"></div>
+
+      <input id="email" name="email" type="email" placeholder="Email" required>
+      <div id="emailError" class="field-error"></div>
+
+      <input id="password" name="password" type="password" placeholder="Password" required>
+      <div id="passwordError" class="field-error"></div>
 
       <div class="role-box">
         <div class="role-title">Role</div>
@@ -32,6 +38,9 @@
       </div>
 
       <button type="submit">Register</button>
+
+      <div id="registerSuccess" class="success-box" style="display:none;"></div>
+
     </form>
 
     <p class="link">
