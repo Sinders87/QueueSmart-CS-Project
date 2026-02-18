@@ -69,52 +69,57 @@ function wireRegisterForm() {
   const nameEl = document.getElementById("name");
   const emailEl = document.getElementById("email");
   const passEl = document.getElementById("password");
+  const roleBox = document.getElementById("roleBox");
+  const successEl = document.getElementById("registerSuccess");
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     clearAllFieldErrors(form);
 
-    const name = nameEl.value;
-    const email = emailEl.value;
-    const password = passEl.value;
+    if (roleBox) roleBox.textContent = "";
+    if (successEl) {
+      successEl.style.display = "none";
+      successEl.textContent = "";
+    }
+
+    const name = nameEl ? nameEl.value : "";
+    const email = emailEl ? emailEl.value : "";
+    const password = passEl ? passEl.value : "";
     const role = getSelectedRole();
 
     let ok = true;
 
-    if (isEmpty(name)) {
-      setFieldError(nameEl, "Name is required");
+    if (!nameEl || isEmpty(name)) {
+      if (nameEl) setFieldError(nameEl, "Name is required");
       ok = false;
     }
 
-    if (!isValidEmail(email)) {
-      setFieldError(emailEl, "Enter a valid email address");
+    if (!emailEl || !isValidEmail(email)) {
+      if (emailEl) setFieldError(emailEl, "Enter a valid email address");
       ok = false;
     }
 
-    if (!minLength(password, 6)) {
-      setFieldError(passEl, "Password must be at least 6 characters");
+    if (!passEl || !minLength(password, 6)) {
+      if (passEl) setFieldError(passEl, "Password must be at least 6 characters");
       ok = false;
     }
 
     if (!role) {
-      const roleBox = document.getElementById("roleBox");
       if (roleBox) roleBox.textContent = "Select a role to continue";
       ok = false;
-    } else {
-      const roleBox = document.getElementById("roleBox");
-      if (roleBox) roleBox.textContent = "";
     }
 
     if (!ok) return;
 
     saveSession(email.trim(), role);
 
-    if (role === "admin") {
-      window.location.href = "../pages/admin-dashboard.html";
-      return;
+    if (successEl) {
+      successEl.textContent = "Registration saved. You can log in now.";
+      successEl.style.display = "block";
     }
 
-    window.location.href = "../pages/user-dashboard.html";
+    form.reset();
+    if (roleBox) roleBox.textContent = "";
   });
 }
 
