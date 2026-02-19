@@ -15,11 +15,11 @@ Dennis: Problem statement development, development methodology description, docu
 
 Team Contributions — Assignment 2 (A2)
 
-Storm Pino: 
+Storm Pino: Front-end Authentication Screens data structure setup, mock data files, shared data loading utilities
  
-Joel: 
+___: UI/UX design concepts, notification UI, client-side form validations
  
-aalakha: 
+aalakha: User-facing screens including dashboard, queue interaction, status tracking, and history views
  
-Dennis: 
+____: Administrator-facing screens and service/queue management interfaces
  
