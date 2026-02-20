@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueueSmart – Queue Status</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard">
+
+<header class="topbar">
+  <span class="logo">QueueSmart</span>
+  <nav>
+    <a href="user-dashboard.html">Dashboard</a>
+    <a href="join-queue.html">Join Queue</a>
+    <a class="active" href="queue-status.html">Queue Status</a>
+    <a href="history.html">History</a>
+  </nav>
+</header>
+
+<main class="dash-container">
+
+  <h1>Queue Status</h1>
+
+  <!-- Position card -->
+  <div class="card">
+    <h2>Your Current Position</h2>
+    <div class="queue-grid">
+      <div class="queue-stat">
+        <div class="label">Status</div>
+        <div class="value" id="statusText">—</div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">Position</div>
+        <div class="value">#<span id="positionText">—</span></div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">Est. Wait</div>
+        <div class="value">
+          <span id="waitText">—</span>
+          <span style="font-size:15px; font-weight:normal"> min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status progress -->
+  <div class="card">
+    <h2>Status Updates</h2>
+    <div class="status-steps">
+
+      <div class="status-step" id="step-waiting">
+        <div class="step-dot"></div>
+        <div class="step-body">
+          <div class="step-title">Waiting</div>
+          <div class="step-desc">You are in the queue. We'll update you as you move up.</div>
+        </div>
+      </div>
+
+      <div class="status-step" id="step-almost">
+        <div class="step-dot"></div>
+        <div class="step-body">
+          <div class="step-title">Almost Ready</div>
+          <div class="step-desc">You're next! Please be ready to be served shortly.</div>
+        </div>
+      </div>
+
+      <div class="status-step" id="step-served">
+        <div class="step-dot"></div>
+        <div class="step-body">
+          <div class="step-title">Served</div>
+          <div class="step-desc">You have been served. Thank you for using QueueSmart!</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:24px">
+      <button class="btn-secondary" onclick="leaveQueue()">Leave Queue</button>
+    </div>
+  </div>
+
+</main>
+
+<script src="../js/queue-status.js"></script>
+</body>
+</html>
