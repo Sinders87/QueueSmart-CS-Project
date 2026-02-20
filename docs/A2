@@ -1,0 +1,11 @@
+Design and Development Methodology
+Our methodology did not significantly change from Assignment 1. We still used a simple iterative approach where we built small parts, tested them locally, and then integrated them. 
+We kept it because the project is front end heavy and quick feedback helped us catch UI and data issues early.
+
+Front End Technologies and Responsibilities
+Technologies used
+HTML for page structure
+CSS for layout and styling
+JavaScript for validation, session handling, and dynamic data loading
+LocalStorage to simulate session state
+JSON mock data to simulate backend responses
