@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueueSmart – Dashboard</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard">
+
+<header class="topbar">
+  <span class="logo">QueueSmart</span>
+  <nav>
+    <a class="active" href="user-dashboard.html">Dashboard</a>
+    <a href="join-queue.html">Join Queue</a>
+    <a href="queue-status.html">Queue Status</a>
+    <a href="history.html">History</a>
+  </nav>
+</header>
+
+<main class="dash-container">
+
+  <h1>Dashboard</h1>
+
+  <!-- 1. Current Queue Status -->
+  <div class="card">
+    <h2>Current Queue Status</h2>
+    <div class="queue-grid">
+      <div class="queue-stat">
+        <div class="label">Status</div>
+        <div class="value" id="statusText">—</div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">Position</div>
+        <div class="value">#<span id="positionText">—</span></div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">Est. Wait</div>
+        <div class="value">
+          <span id="waitText">—</span>
+          <span style="font-size:15px; font-weight:normal"> min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Active Services -->
+  <div class="card">
+    <h2>Active Services</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Duration</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="serviceTable">
+        <tr><td colspan="3" style="color:#aaa; text-align:center; padding:20px">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 3. Notifications -->
+  <div class="card">
+    <h2>
+      Notifications
+      <span id="notifMeta" style="font-size:13px; font-weight:normal; color:#aaa; margin-left:6px"></span>
+    </h2>
+    <div id="notifList">
+      <div style="color:#aaa; text-align:center; padding:16px">Loading...</div>
+    </div>
+  </div>
+
+</main>
+
+<script src="../js/user.js"></script>
+</body>
+</html>
