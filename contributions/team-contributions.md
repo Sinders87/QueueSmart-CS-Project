@@ -21,5 +21,5 @@ ___: UI/UX design concepts, notification UI, client-side form validations
  
 aalakha: User-facing screens including dashboard, queue interaction, status tracking, and history views
  
-____: Administrator-facing screens and service/queue management interfaces
+Joel: Administrator-facing screens and service/queue management interfaces
  
