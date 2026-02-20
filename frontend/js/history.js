@@ -20,14 +20,6 @@ function formatDate(dateStr) {
   return d.toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" });
 }
 
-function formatOutcome(outcome) {
-  if (outcome === "served") {
-    return '<span class="pill pill-open">Served</span>';
-  } else {
-    return '<span class="pill pill-closed">Left Queue</span>';
-  }
-}
-
 async function loadHistory() {
   const history = await loadJSON("../mock-data/history.json");
   const tbody   = document.getElementById("historyTable");
@@ -37,13 +29,17 @@ async function loadHistory() {
     return;
   }
 
-  tbody.innerHTML = history.map(h => `
-    <tr>
-      <td>${formatDate(h.date)}</td>
-      <td><strong>${h.serviceName}</strong></td>
-      <td>${formatOutcome(h.outcome)}</td>
-    </tr>
-  `).join("");
+  tbody.innerHTML = history.map(h => {
+    const pill = h.outcome === "served"
+      ? '<span class="pill pill-open">Served</span>'
+      : '<span class="pill pill-closed">Left Queue</span>';
+    return `
+      <tr>
+        <td>${formatDate(h.date)}</td>
+        <td><strong>${h.serviceName}</strong></td>
+        <td>${pill}</td>
+      </tr>`;
+  }).join("");
 }
 
 loadHistory();
