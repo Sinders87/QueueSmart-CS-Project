@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueueSmart – History</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard">
+
+<header class="topbar">
+  <span class="logo">QueueSmart</span>
+  <nav>
+    <a href="user-dashboard.html">Dashboard</a>
+    <a href="join-queue.html">Join Queue</a>
+    <a href="queue-status.html">Queue Status</a>
+    <a class="active" href="history.html">History</a>
+  </nav>
+</header>
+
+<main class="dash-container">
+
+  <h1>History</h1>
+
+  <div class="card">
+    <h2>Past Queues</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Service</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody id="historyTable">
+        <tr><td colspan="3" style="color:#aaa; text-align:center; padding:20px">Loading...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<script src="../js/history.js"></script>
+</body>
+</html>
