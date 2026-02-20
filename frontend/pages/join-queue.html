@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QueueSmart – Join Queue</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="dashboard">
+
+<header class="topbar">
+  <span class="logo">QueueSmart</span>
+  <nav>
+    <a href="user-dashboard.html">Dashboard</a>
+    <a class="active" href="join-queue.html">Join Queue</a>
+    <a href="queue-status.html">Queue Status</a>
+    <a href="history.html">History</a>
+  </nav>
+</header>
+
+<main class="dash-container">
+
+  <h1>Join a Queue</h1>
+
+  <!-- Step 1: Select a service -->
+  <div class="card">
+    <h2>Select a Service</h2>
+    <div id="serviceList">
+      <div style="color:#aaa; text-align:center; padding:20px">Loading services...</div>
+    </div>
+  </div>
+
+  <!-- Step 2: Details + Join -->
+  <div class="card" id="joinCard" style="display:none">
+    <h2>Queue Details</h2>
+
+    <div class="queue-grid" style="margin-bottom:24px">
+      <div class="queue-stat">
+        <div class="label">Service</div>
+        <div class="value" id="selectedServiceName" style="font-size:16px">—</div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">Est. Wait</div>
+        <div class="value">
+          <span id="selectedWait">—</span>
+          <span style="font-size:15px; font-weight:normal"> min</span>
+        </div>
+      </div>
+      <div class="queue-stat">
+        <div class="label">People Ahead</div>
+        <div class="value" id="selectedAhead">—</div>
+      </div>
+    </div>
+
+    <div id="selectedDesc" style="font-size:13px; color:#888; margin-bottom:20px"></div>
+
+    <div style="display:flex; gap:12px">
+      <button class="btn-primary" id="joinBtn" onclick="joinQueue()">Join Queue</button>
+      <button class="btn-secondary" onclick="clearSelection()">Cancel</button>
+    </div>
+
+    <!-- Confirmation -->
+    <div id="joinConfirm" style="display:none; margin-top:20px; padding:16px; background:#f0f0f0; border-radius:8px; text-align:center">
+      <div style="font-size:17px; font-weight:bold; color:#222; margin-bottom:6px">✓ You've joined the queue!</div>
+      <div style="font-size:14px; color:#555">
+        You are <strong id="confirmPos"></strong> in line for <strong id="confirmService"></strong>.<br>
+        Check your live position on the <a href="queue-status.html" style="color:#444; font-weight:bold">Queue Status</a> page.
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="../js/join-queue.js"></script>
+</body>
+</html>
