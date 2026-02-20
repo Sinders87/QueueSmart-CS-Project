@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel = "stylesheet" href="../css/style.css">
+</head>
+<body>
+
+    <div class = "login-box" style = "width: 800px; margin: 50px; padding: 30px;">  
+        <h2>Financial Aid</h2>
+
+        <hr>
+
+        <h3 align = "center">Queue Status</h3>
+
+        <table bgcolor = "black" align = "center">
+        <tr bgcolor = "grey">
+            <th width = "100">Financial Aid</th>
+            <th width = "100">Estimated Wait Time</th>
+        </tr>
+        <tr bgcolor = "lightgrey" align = "center">
+            <th width = "100">1</th>
+            <th width = "100">0 Minutes</th>
+
+        </tr>
+        
+        </table>
+
+   <br>
+
+        <table bgcolor = "black" align = "center">
+            <tr bgcolor = "grey">
+                <th width = "100">ID</th>
+                <th width = "100">Name</th>
+                <th width = "100">Position</th>
+                <th width = "100">Estimated Wait</th>
+                <th width = "100">Move</th>
+                <th width = "100">Action</th>
+            </tr>
+
+            <tr bgcolor = "lightgrey" align = "center">
+                <th width = "100">101</th>
+                <th width = "100">Casey</th>
+                <th width = "100">1</th>
+                <th width = "100">0</th>
+                <th width = "100">
+
+                <button onclick="moveUp(this)">Move Up</button>
+                <button onclick="moveDown(this)">Move Down</button>
+
+                <td>
+                <button>Serve</button>
+                <button onclick="removeUser(this)">Remove</button>
+                </td>
+
+
+            </tr>
+
+            
+
+
+
+
+        </table>
+
+
+        <p class="link">
+        Click Below to Return to Dashboard 
+        <br>
+        <br>
+        <a href = "admin.html">Admin Dashboard</a>
+    </p>
+
+
+
+
+
+    </div>
+
+
+
+</body>

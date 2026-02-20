@@ -1,3 +1,122 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Service Management</title>
+    <link rel = "stylesheet" href = "../css/style.css">
+</head>
+
+
+<body>
+
+    <div class = "login-box">
+        <h2>Service Management</h2>
+
+        <hr>
+
+        <h3 align = "center"> Select Service to Modify</h3>
+
+    <div class = "role-box">
+    <!--<div class = "role-title"> Select a Quick Action</div>-->
+
+    <label for="services">Choose a Service:</label>
+
+    <select name = "services" id="services">
+        <option value = "academic-advising">Academic Advising</option>
+        <option value = "financial-aid">Financial Aid</option>
+        <option value = "IT-helpdesk">IT Help Desk</option>
+        <option value = "aregistration-support">Registration Support</option>
+        <option value = "new-service">Add New Service</option>
+    </select>
+
+    <br>
+    <br>
+
+    <form id = "newService" novalidate>
+
+        <input id = "service-name" name = "service-name" type = "text" placeholder="Service Name" required>
+        <div id = "service-nameError" class = "field-error"></div>
+
+        <input id = "description" name = "description" type = "text" placeholder="Description" required>
+        <div id = "descriptionError" class = "field-error"></div>
+
+        <!--input id = "duration" name = "duration" type = "text" placeholder="Expected Duration" required>
+        <div id = "durationError" class = "field-error"></div>
+
+        <input id = "priority" name = "priority" type = "text" placeholder="Priority" required>
+        <div id = "priorityError" class = "field-error"></div>-->
+
+        <label for="priority"> Priority Level: </label>
+        <select name = "priority" id = "priority">
+            <option value = "low">Low</option>
+            <option value = "medium">Medium</option>
+            <option value = "high">High</option>
+        </select>
+
+        <br>
+        <br>
+
+        <label for="duration"> Expected Duration: </label>
+        <select name = "duration" id = "duration">
+            <option value = "10">10</option>
+            <option value = "12">12</option>
+            <option value = "15">15</option>
+            <option value = "20">20</option>
+        </select>
+
+        <br>
+        <br>
+        
+
+    </div>
+
+    <button type = "submit">Submit Changes</button>
+
+    <div id = "changeSuccess" class = "success-box" style = "display:none;"></div>
+
+    <p class="link">
+        Click Below to Return to Dashboard 
+        <br>
+        <br>
+        <a href = "admin.html">Admin Dashboard</a>
+    </p>
+
+
+    </form>
+
+
+
+
+    
+   </div>
+
+
+
+
+
+
+
+
+    </div>
+
+    
+
+
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+=======
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -98,4 +217,5 @@
 
 
 
+>>>>>>> de7272595cf6d96d65b35552c8d93f5d7d403948
 </html>
