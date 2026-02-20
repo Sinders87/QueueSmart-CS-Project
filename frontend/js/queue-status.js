@@ -10,42 +10,41 @@ async function loadJSON(path) {
 
 function mockQueue() {
   return [
-    { id: 1, userId: "u1", status: "Waiting",      position: 3, estimatedWait: 12 },
-    { id: 2, userId: "u2", status: "Almost Ready",  position: 1, estimatedWait: 2  }
+    { id: 101, serviceId: 1, userName: "Alex",  status: "waiting", position: 1, estimatedWait: 0  },
+    { id: 102, serviceId: 1, userName: "Blake", status: "waiting", position: 2, estimatedWait: 15 },
+    { id: 201, serviceId: 2, userName: "Casey", status: "waiting", position: 1, estimatedWait: 0  }
   ];
 }
 
-// Maps status string to which step is active
+// Map status values from queue.json to step IDs
 const STATUS_STEP = {
-  "Waiting":      "step-waiting",
-  "Almost Ready": "step-almost",
-  "Served":       "step-served"
+  "waiting":      "step-waiting",
+  "almost ready": "step-almost",
+  "served":       "step-served"
 };
 
 async function loadStatus() {
   const queue = await loadJSON("../mock-data/queue.json");
-  const user  = queue[1] || queue[0];
 
-  document.getElementById("statusText").textContent   = user.status;
+  // Current user = Blake (position 2)
+  const user = queue.find(q => q.userName === "Blake") || queue[0];
+
+  // Capitalise status for display
+  const displayStatus = user.status.charAt(0).toUpperCase() + user.status.slice(1);
+  document.getElementById("statusText").textContent   = displayStatus;
   document.getElementById("positionText").textContent = user.position;
   document.getElementById("waitText").textContent     = user.estimatedWait;
 
-  // Highlight the correct step
-  const steps = ["step-waiting", "step-almost", "step-served"];
-  const activeStep = STATUS_STEP[user.status] || "step-waiting";
+  // Highlight progress steps
+  const steps       = ["step-waiting", "step-almost", "step-served"];
+  const activeStep  = STATUS_STEP[user.status.toLowerCase()] || "step-waiting";
   const activeIndex = steps.indexOf(activeStep);
 
   steps.forEach((id, i) => {
     const el = document.getElementById(id);
-    if (i < activeIndex) {
-      el.classList.add("step-done");
-      el.classList.remove("step-active");
-    } else if (i === activeIndex) {
-      el.classList.add("step-active");
-      el.classList.remove("step-done");
-    } else {
-      el.classList.remove("step-active", "step-done");
-    }
+    el.classList.remove("step-active", "step-done");
+    if (i < activeIndex)      el.classList.add("step-done");
+    else if (i === activeIndex) el.classList.add("step-active");
   });
 }
 
