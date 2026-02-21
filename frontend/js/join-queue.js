@@ -115,6 +115,12 @@ function joinQueue() {
   document.getElementById("joinBtn").style.display = "none";
 
   addNotification("You joined " + selectedService.name + ". Current position: " + myPosition, "user");
+
+  localStorage.setItem("qs_notifications_last_updated", String(Date.now()));
 }
 
 loadPage();
+
+window.addEventListener("pageshow", () => {
+  loadPage();
+});
