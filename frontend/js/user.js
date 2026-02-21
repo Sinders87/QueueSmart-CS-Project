@@ -8,6 +8,15 @@ function minutesAgoFromIso(iso) {
   return diffMin + " min ago";
 }
 
+function getStoredNotifications() {
+  try {
+    const arr = JSON.parse(localStorage.getItem("qs_notifications") || "[]");
+    return Array.isArray(arr) ? arr : [];
+  } catch {
+    return [];
+  }
+}
+
 async function loadJSON(path) {
   try {
     const res = await fetch(path);
@@ -82,6 +91,9 @@ async function loadDashboard() {
       <td><span class="pill pill-open">Open</span></td>
     </tr>
   `).join("");
+
+  const stored = getStoredNotifications();
+  notifications = [...stored, ...(notifications || [])];
 
   const filteredNotifs = (notifications || []).filter(n => !n.role || n.role === role);
 
