@@ -14,6 +14,7 @@
     <a href="join-queue.html">Join Queue</a>
     <a class="active" href="queue-status.html">Queue Status</a>
     <a href="history.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
   </nav>
 </header>
 
@@ -21,7 +22,6 @@
 
   <h1>Queue Status</h1>
 
-  <!-- Position card -->
   <div class="card">
     <h2>Your Current Position</h2>
     <div class="queue-grid">
@@ -43,7 +43,6 @@
     </div>
   </div>
 
-  <!-- Status progress -->
   <div class="card">
     <h2>Status Updates</h2>
     <div class="status-steps">
@@ -82,5 +81,13 @@
 </main>
 
 <script src="../js/queue-status.js"></script>
+<script>
+function logout() {
+  localStorage.clear();
+  sessionStorage.clear();
+  window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>
