@@ -93,7 +93,11 @@ async function loadDashboard() {
   `).join("");
 
   const stored = getStoredNotifications();
-  notifications = [...stored, ...(notifications || [])];
+  if (stored.length > 0) {
+    notifications = stored;
+  } else {
+    notifications = notifications || [];
+  }
 
   const filteredNotifs = (notifications || []).filter(n => !n.role || n.role === role);
 
