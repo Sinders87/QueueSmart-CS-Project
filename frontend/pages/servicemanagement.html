@@ -9,7 +9,7 @@
 
 <body>
 
-    <div class = "login-box">
+    <div class = "login-box" style = "width: 800px; margin: 50px; padding: 30px;">
         <h2>Service Management</h2>
 
         <hr>
@@ -34,10 +34,10 @@
 
     <form id = "newService" novalidate>
 
-        <input id = "service-name" name = "service-name" type = "text" placeholder="Service Name" required>
+        <input id = "service-name" name = "service-name" type = "text" placeholder="Service Name (Required, Max 100 Characters)" required>
         <div id = "service-nameError" class = "field-error"></div>
 
-        <input id = "description" name = "description" type = "text" placeholder="Description" required>
+        <input id = "description" name = "description" type = "text" placeholder="Description (Required)" required>
         <div id = "descriptionError" class = "field-error"></div>
 
         <!--input id = "duration" name = "duration" type = "text" placeholder="Expected Duration" required>
@@ -56,17 +56,15 @@
         <br>
         <br>
 
-        <label for="duration"> Expected Duration: </label>
-        <select name = "duration" id = "duration">
-            <option value = "10">10</option>
-            <option value = "12">12</option>
-            <option value = "15">15</option>
-            <option value = "20">20</option>
-        </select>
+        <label for="duration"> Expected Duration (In Minutes): </label>
+        
+
+         <input id = "minutes" name = "minutes-name" type = "text" placeholder="Minutes (Required) " required>
+        <div id = "minutes-nameError" class = "field-error"></div>
+
+
 
         <br>
-        <br>
-        
 
     </div>
 
