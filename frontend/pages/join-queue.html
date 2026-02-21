@@ -14,6 +14,7 @@
     <a class="active" href="join-queue.html">Join Queue</a>
     <a href="queue-status.html">Queue Status</a>
     <a href="history.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
   </nav>
 </header>
 
@@ -21,7 +22,6 @@
 
   <h1>Join a Queue</h1>
 
-  <!-- Step 1: Select a service -->
   <div class="card">
     <h2>Select a Service</h2>
     <div id="serviceList">
@@ -29,7 +29,6 @@
     </div>
   </div>
 
-  <!-- Step 2: Details + Join -->
   <div class="card" id="joinCard" style="display:none">
     <h2>Queue Details</h2>
 
@@ -58,7 +57,6 @@
       <button class="btn-secondary" onclick="clearSelection()">Cancel</button>
     </div>
 
-    <!-- Confirmation -->
     <div id="joinConfirm" style="display:none; margin-top:20px; padding:16px; background:#f0f0f0; border-radius:8px; text-align:center">
       <div style="font-size:17px; font-weight:bold; color:#222; margin-bottom:6px">✓ You've joined the queue!</div>
       <div style="font-size:14px; color:#555">
@@ -71,5 +69,14 @@
 </main>
 
 <script src="../js/join-queue.js"></script>
+
+<script>
+function logout() {
+  localStorage.removeItem("qs_email");
+  localStorage.removeItem("qs_role");
+  window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>
