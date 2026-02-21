@@ -14,6 +14,7 @@
     <a href="join-queue.html">Join Queue</a>
     <a href="queue-status.html">Queue Status</a>
     <a href="history.html">History</a>
+    <a href="#" onclick="logout()">Logout</a>
   </nav>
 </header>
 
@@ -21,7 +22,6 @@
 
   <h1>Dashboard</h1>
 
-  <!-- 1. Current Queue Status -->
   <div class="card">
     <h2>Current Queue Status</h2>
     <div class="queue-grid">
@@ -43,7 +43,6 @@
     </div>
   </div>
 
-  <!-- 2. Active Services -->
   <div class="card">
     <h2>Active Services</h2>
     <table>
@@ -60,7 +59,6 @@
     </table>
   </div>
 
-  <!-- 3. Notifications -->
   <div class="card">
     <h2>
       Notifications
@@ -75,5 +73,14 @@
 
 <script src="../js/data.js"></script>
 <script src="../js/user.js"></script>
+
+<script>
+function logout() {
+  localStorage.removeItem("qs_email");
+  localStorage.removeItem("qs_role");
+  window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>
