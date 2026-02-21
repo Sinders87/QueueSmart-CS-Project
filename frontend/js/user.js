@@ -116,3 +116,15 @@ async function loadDashboard() {
 document.addEventListener("DOMContentLoaded", () => {
   loadDashboard();
 });
+
+window.addEventListener("focus", () => {
+  loadDashboard();
+});
+
+window.addEventListener("pageshow", () => {
+  loadDashboard();
+});
+
+window.addEventListener("storage", (e) => {
+  if (e.key === "qs_notifications") loadDashboard();
+});
