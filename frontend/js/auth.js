@@ -3,14 +3,28 @@ function getSelectedRole() {
   return el ? el.value : "";
 }
 
-function saveSession(email, role) {
-  localStorage.setItem("qs_email", email);
-  localStorage.setItem("qs_role", role);
+function saveSession(user) {
+  localStorage.setItem("qs_email", user.email);
+  localStorage.setItem("qs_role", user.role);
+  localStorage.setItem("qs_user", JSON.stringify(user));
 }
 
 function clearAllFieldErrors(formEl) {
   const inputs = formEl.querySelectorAll("input");
   inputs.forEach(clearFieldError);
+}
+
+async function postJSON(url, payload) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+  return { res, data };
 }
 
 function wireLoginForm() {
@@ -20,13 +34,14 @@ function wireLoginForm() {
   const emailEl = document.getElementById("email");
   const passEl = document.getElementById("password");
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearAllFieldErrors(form);
 
-    const email = emailEl.value;
+    const email = emailEl.value.trim();
     const password = passEl.value;
     const role = getSelectedRole();
+    const roleBox = document.getElementById("roleBox");
 
     let ok = true;
 
@@ -41,24 +56,38 @@ function wireLoginForm() {
     }
 
     if (!role) {
-      const roleBox = document.getElementById("roleBox");
       if (roleBox) roleBox.textContent = "Select a role to continue";
       ok = false;
     } else {
-      const roleBox = document.getElementById("roleBox");
       if (roleBox) roleBox.textContent = "";
     }
 
     if (!ok) return;
 
-    saveSession(email.trim(), role);
+    try {
+      const { res, data } = await postJSON("http://localhost:3000/api/auth/login", {
+        email,
+        password,
+        role
+      });
 
-    if (role === "admin") {
-      window.location.href = "../pages/admin-dashboard.html";
-      return;
+      if (!res.ok || !data.success) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      saveSession(data.data);
+
+      if (data.data.role === "admin") {
+        window.location.href = "../pages/admin-dashboard.html";
+        return;
+      }
+
+      window.location.href = "../pages/user-dashboard.html";
+    } catch (err) {
+      alert("Could not connect to backend");
+      console.error(err);
     }
-
-    window.location.href = "../pages/user-dashboard.html";
   });
 }
 
@@ -72,7 +101,7 @@ function wireRegisterForm() {
   const roleBox = document.getElementById("roleBox");
   const successEl = document.getElementById("registerSuccess");
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearAllFieldErrors(form);
 
@@ -82,8 +111,8 @@ function wireRegisterForm() {
       successEl.textContent = "";
     }
 
-    const name = nameEl ? nameEl.value : "";
-    const email = emailEl ? emailEl.value : "";
+    const name = nameEl ? nameEl.value.trim() : "";
+    const email = emailEl ? emailEl.value.trim() : "";
     const password = passEl ? passEl.value : "";
     const role = getSelectedRole();
 
@@ -111,15 +140,30 @@ function wireRegisterForm() {
 
     if (!ok) return;
 
-    saveSession(email.trim(), role);
+    try {
+      const { res, data } = await postJSON("http://localhost:3000/api/auth/register", {
+        name,
+        email,
+        password,
+        role
+      });
 
-    if (successEl) {
-      successEl.textContent = "Registration saved. You can log in now.";
-      successEl.style.display = "block";
+      if (!res.ok || !data.success) {
+        alert(data.message || "Registration failed");
+        return;
+      }
+
+      if (successEl) {
+        successEl.textContent = "Registration successful. You can log in now.";
+        successEl.style.display = "block";
+      }
+
+      form.reset();
+      if (roleBox) roleBox.textContent = "";
+    } catch (err) {
+      alert("Could not connect to backend");
+      console.error(err);
     }
-
-    form.reset();
-    if (roleBox) roleBox.textContent = "";
   });
 }
 

@@ -78,6 +78,14 @@
 function logout() {
   localStorage.removeItem("qs_email");
   localStorage.removeItem("qs_role");
+  localStorage.removeItem("qs_user");
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+const user = JSON.parse(localStorage.getItem("qs_user"));
+if (!user) {
   window.location.href = "login.html";
 }
 </script>

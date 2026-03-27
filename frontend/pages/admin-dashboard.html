@@ -27,7 +27,7 @@
         </li>
         
         <li align = "center">
-            <a href = "Itqueue.html">IT Help Desk</a>
+            <a href = "ITqueue.html">IT Help Desk</a>
         </li>
         <li align = "center">
             <a href = "registrationqueue.html">Registration Support</a>
@@ -138,13 +138,21 @@
    <script src="../js/data.js"></script>
    <script src="../js/services.js"></script>
 
-   <script>
-   function logout() {
-     localStorage.clear();
-     sessionStorage.clear();
-     window.location.href = "login.html";
-   }
-   </script>
+  <script>
+function logout() {
+  localStorage.removeItem("qs_email");
+  localStorage.removeItem("qs_role");
+  localStorage.removeItem("qs_user");
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+const user = JSON.parse(localStorage.getItem("qs_user"));
+if (!user || user.role !== "admin") {
+  window.location.href = "login.html";
+}
+</script>
 
 </body>
 </html>

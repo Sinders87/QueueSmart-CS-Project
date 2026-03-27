@@ -1,116 +1,94 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-    <meta charset = "UTF-8">
+    <meta charset="UTF-8">
     <title>Service Management</title>
-    <link rel = "stylesheet" href = "../css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
-
 
 <body>
 
-    <div class = "login-box" style = "width: 800px; margin: 50px; padding: 30px;">
+    <div style="text-align:right; margin:20px;">
+        <a href="#" onclick="logout()">Logout</a>
+    </div>
+
+    <div class="login-box" style="width: 800px; margin: 50px; padding: 30px;">
         <h2>Service Management</h2>
 
         <hr>
 
-        <h3 align = "center"> Select Service to Modify</h3>
+        <h3 align="center">Select Service to Modify</h3>
 
-    <div class = "role-box">
-    <!--<div class = "role-title"> Select a Quick Action</div>-->
+        <div class="role-box">
+            <label for="services">Choose a Service:</label>
 
-    <label for="services">Choose a Service:</label>
+            <select name="services" id="services">
+                <option value="academic-advising">Academic Advising</option>
+                <option value="financial-aid">Financial Aid</option>
+                <option value="IT-helpdesk">IT Help Desk</option>
+                <option value="registration-support">Registration Support</option>
+                <option value="new-service">Add New Service</option>
+            </select>
 
-    <select name = "services" id="services">
-        <option value = "academic-advising">Academic Advising</option>
-        <option value = "financial-aid">Financial Aid</option>
-        <option value = "IT-helpdesk">IT Help Desk</option>
-        <option value = "aregistration-support">Registration Support</option>
-        <option value = "new-service">Add New Service</option>
-    </select>
+            <br>
+            <br>
 
-    <br>
-    <br>
+            <form id="newService" novalidate>
 
-    <form id = "newService" novalidate>
+                <input id="service-name" name="service-name" type="text" placeholder="Service Name (Required, Max 100 Characters)" required>
+                <div id="service-nameError" class="field-error"></div>
 
-        <input id = "service-name" name = "service-name" type = "text" placeholder="Service Name (Required, Max 100 Characters)" required>
-        <div id = "service-nameError" class = "field-error"></div>
+                <input id="description" name="description" type="text" placeholder="Description (Required)" required>
+                <div id="descriptionError" class="field-error"></div>
 
-        <input id = "description" name = "description" type = "text" placeholder="Description (Required)" required>
-        <div id = "descriptionError" class = "field-error"></div>
+                <label for="priority">Priority Level:</label>
+                <select name="priority" id="priority">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
 
-        <!--input id = "duration" name = "duration" type = "text" placeholder="Expected Duration" required>
-        <div id = "durationError" class = "field-error"></div>
+                <br>
+                <br>
 
-        <input id = "priority" name = "priority" type = "text" placeholder="Priority" required>
-        <div id = "priorityError" class = "field-error"></div>-->
+                <label for="minutes">Expected Duration (In Minutes):</label>
 
-        <label for="priority"> Priority Level: </label>
-        <select name = "priority" id = "priority">
-            <option value = "low">Low</option>
-            <option value = "medium">Medium</option>
-            <option value = "high">High</option>
-        </select>
+                <input id="minutes" name="minutes-name" type="number" placeholder="Minutes (Required)" required>
+                <div id="minutes-nameError" class="field-error"></div>
 
-        <br>
-        <br>
+                <br>
 
-        <label for="duration"> Expected Duration (In Minutes): </label>
-        
+                <button type="submit">Submit Changes</button>
 
-         <input id = "minutes" name = "minutes-name" type = "text" placeholder="Minutes (Required) " required>
-        <div id = "minutes-nameError" class = "field-error"></div>
+                <div id="changeSuccess" class="success-box" style="display:none;"></div>
 
+                <p class="link">
+                    Click below to return to admin dashboard.
+                    <br>
+                    <br>
+                    <a href="admin-dashboard.html">Admin Dashboard</a>
+                    <br>
+                    <br>
+                    <a href="#" onclick="logout()">Logout</a>
+                </p>
 
-
-        <br>
-
+            </form>
+        </div>
     </div>
 
-    <button type = "submit">Submit Changes</button>
+    <script>
+    function logout() {
+      localStorage.removeItem("qs_email");
+      localStorage.removeItem("qs_role");
+      localStorage.removeItem("qs_user");
+      window.location.href = "login.html";
+    }
 
-    <div id = "changeSuccess" class = "success-box" style = "display:none;"></div>
-
-    <p class="link">
-        Click below to return to admin dashboard. 
-        <br>
-        <br>
-        <a href = "admin-dashboard.html">Admin Dashboard</a>
-    </p>
-
-
-    </form>
-
-
-
-
-    
-   </div>
-
-
-
-
-
-
-
-
-    </div>
-
-    
-
-
+    const user = JSON.parse(localStorage.getItem("qs_user"));
+    if (!user || user.role !== "admin") {
+      window.location.href = "login.html";
+    }
+    </script>
 
 </body>
-
-
-
-
-
-
-
-
-
-
-
 </html>

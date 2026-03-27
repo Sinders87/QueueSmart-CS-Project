@@ -1,0 +1,12 @@
+{
+  "name": "queuesmart-backend",
+  "version": "1.0.0",
+  "description": "QueueSmart backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
