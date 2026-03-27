@@ -28,3 +28,11 @@ Joel: Administrator-facing screens and service/queue management interfaces
  
 
 Team Contributions — Assignment 3 (A3)
+
+Sinders: Authentication API, role handling, input validation, frontend integration for login/register/session/notifications
+
+Dennis: Queue management module, service management module, history module, backend folder structure, getting backend running, unit tests
+
+Joel: wait-time logic, notification module
+
+aalakha: connect user frontend screens to backend APIs, update dashboard, join queue, queue status, and history to use backend responses, test user-side flows
