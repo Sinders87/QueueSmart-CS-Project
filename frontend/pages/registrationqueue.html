@@ -20,14 +20,14 @@
             <th width = "100" style="color: black;">Estimated Wait Time</th>
         </tr>
         <tr bgcolor = "lightgrey" align = "center">
-            <th width = "100" style="color: black;">Empty</th>
-            <th width = "100" style="color: black;">0 Minutes</th>
+            <td id = "queueLength" width = "100" style="color: black;">0</td>
+            <td id = "totalWait" width = "100" style="color: black;">0 Minutes</td>
 
         </tr>
         
         </table>
 
-   <br>
+        <br>
 
         <table bgcolor = "black" align = "center">
             <tr bgcolor = "grey">
@@ -40,28 +40,127 @@
             </tr>
 
             
-            
-
-
+            <tbody id = "queueBody"></tbody>
 
 
         </table>
 
-
         <p class="link">
-        Click Below to Return to Dashboard 
-        <br>
-        <br>
-        <a href = "admin-dashboard.html">Admin Dashboard</a>
-    </p>
-
-
-
-
-
+            Click below to return to dashboard.
+            <br>
+            <br>
+            <a href="admin-dashboard.html">Admin Dashboard</a>
+            <br>
+            <br>
+            <a href="#" onclick="logout()">Logout</a>
+        </p>
     </div>
 
+    <script src = "../js/data.js"></script>
+    <script src = "../js/estWaitTime.js"></script>
 
+    <script>
+        async function load() {
+            const services = await loadServices();
+            console.log("services:", services);
+
+            const queue = await loadQueue();
+            console.log("queue:", queue);
+
+            const tableBody = document.getElementById("queueBody");
+            tableBody.innerHTML = "";
+
+            let count = 0;
+            let duration = 0;
+
+            for (let i = 0; i < queue.length; i++) {
+                const person = queue[i];
+
+                if (person.serviceId !== 4) {
+                    continue;
+                }
+
+                count++;
+        
+                for (let j = 0; j < services.length; j++) {
+                    if(services[j].id == person.serviceId) {
+                        duration = services[j].expectedDuration;
+                    }
+                }
+
+                person.estimatedWait = estWaitTime(person.position, duration);
+            
+            const row = document.createElement("tr");
+            row.setAttribute("bgcolor", "lightgrey");
+            row.setAttribute("align", "center");
+
+            row.innerHTML = 
+                "<td>" + person.id + "</td>" +
+                "<td>" + person.userName + "</td>" +
+                "<td>" + person.position + "</td>" +
+                "<td>" + person.estimatedWait + " Minutes</td>" +
+                "<td>" +
+                    "<button onclick='moveUp(this)'>Move Up</button>" +
+                    "<button onclick='moveDown(this)'>Move Down</button>" +
+                "</td>" +
+                "<td>" + "<button>Serve</button>" +
+                    "<button onclick='removeUser(this)'>Remove</button>" +
+                "</td>";
+
+            tableBody.appendChild(row);
+            }
+
+            let totalWaitTime = 0;
+            if (count > 0) {
+                totalWaitTime = (count - 1) * duration;
+            }
+
+            console.log("count:", count);
+            console.log("duration:", duration);
+            console.log("totalWaitTime:", totalWaitTime);
+
+            document.getElementById("queueLength").textContent = count;
+            document.getElementById("totalWait").textContent = totalWaitTime + " Minutes";
+
+        }
+
+        load();
+    </script>
+    <script>
+    function logout() {
+        localStorage.removeItem("qs_email");
+        localStorage.removeItem("qs_role");
+        localStorage.removeItem("qs_user");
+        window.location.href = "login.html";
+    }
+
+    //const user = JSON.parse(localStorage.getItem("qs_user"));
+    //if (!user || user.role !== "admin") {
+    //    window.location.href = "login.html";
+    //}
+
+    function removeUser(button) {
+        const row = button.closest("tr");
+        if (row) row.remove();
+    }
+
+    function moveUp(button) {
+        const row = button.closest("tr");
+        const prev = row.previousElementSibling;
+        if (row && prev && prev.rowIndex > 0) {
+            row.parentNode.insertBefore(row, prev);
+        }
+    }
+
+    function moveDown(button) {
+        const row = button.closest("tr");
+        const next = row.nextElementSibling;
+        if (row && next) {
+            row.parentNode.insertBefore(next, row);
+        }
+    }
+    </script>
 
 </body>
+</html>
 

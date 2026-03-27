@@ -47,19 +47,19 @@
             <th width = "100" style="color: black;">Estimated Wait Time</th>
         </tr>
         <tr bgcolor = "lightgrey" align = "center">
-            <th width = "100" style="color: black;">2</th>
-            <th width = "100" style="color: black;">15 Minutes</th>
+            <td id = "advisingCount" width = "100" style="color: black;">0</td>
+            <td id = "advisingTime" width = "100" style="color: black;">0 Minutes</td>
         </tr>
    </table>
 
    <div class = "role-box">
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "open">
+        <input type = "radio" name = "advisingaction" value = "open">
         <span>Open Queue</span>
     </label>
 
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "close">
+        <input type = "radio" name = "advisingaction" value = "close">
         <span>Close Queue</span>
     </label>
    </div>
@@ -70,19 +70,19 @@
             <th width = "100" style="color: black;">Estimated Wait Time</th>
         </tr>
         <tr bgcolor = "lightgrey" align = "center">
-            <th width = "100" style="color: black;">1</th>
-            <th width = "100" style="color: black;">0 Minutes</th>
+            <td id = "financeCount" width = "100" style="color: black;">0</td>
+            <td id = "financeTime" width = "100" style="color: black;">0 Minutes</td>
         </tr>
    </table>
 
    <div class = "role-box">
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "open">
+        <input type = "radio" name = "financialaction" value = "open">
         <span>Open Queue</span>
     </label>
 
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "close">
+        <input type = "radio" name = "financialaction" value = "close">
         <span>Close Queue</span>
     </label>
    </div>
@@ -93,19 +93,19 @@
             <th width = "100" style="color: black;">Estimated Wait Time</th>
         </tr>
         <tr bgcolor = "lightgrey" align = "center">
-            <th width = "100" style="color: black;">0</th>
-            <th width = "100" style="color: black;">0 Minutes</th>
+            <td id = "itCount" width = "100" style="color: black;">0</td>
+            <td id = "itTime" width = "100" style="color: black;">0 Minutes</td>
         </tr>
    </table>
 
    <div class = "role-box">
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "open">
+        <input type = "radio" name = "itaction" value = "open">
         <span>Open Queue</span>
     </label>
 
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "close">
+        <input type = "radio" name = "itaction" value = "close">
         <span>Close Queue</span>
     </label>
    </div>
@@ -116,19 +116,19 @@
             <th width = "100" style="color: black;">Estimated Wait Time</th>
         </tr>
         <tr bgcolor = "lightgrey" align = "center">
-            <th width = "100" style="color: black;">0</th>
-            <th width = "100" style="color: black;">0 Minutes</th>
+            <td id = "registrationCount" width = "100" style="color: black;">0</td>
+            <td id = "registrationTime" width = "100" style="color: black;">0 Minutes</td>
         </tr>
    </table>
 
    <div class = "role-box">
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "open">
+        <input type = "radio" name = "registrationaction" value = "open">
         <span>Open Queue</span>
     </label>
 
     <label class = "role-option">
-        <input type = "radio" name = "action" value = "close">
+        <input type = "radio" name = "registrationaction" value = "close">
         <span>Close Queue</span>
     </label>
    </div>
@@ -137,21 +137,97 @@
 
    <script src="../js/data.js"></script>
    <script src="../js/services.js"></script>
+   <script src = "../js/estWaitTime.js"></script>
 
-  <script>
-function logout() {
-  localStorage.removeItem("qs_email");
-  localStorage.removeItem("qs_role");
-  localStorage.removeItem("qs_user");
-  window.location.href = "login.html";
-}
+
+<script>
+    async function dashBoard() {
+        const services = await loadServices();
+        const queue = await loadQueue();
+
+        let advisingCount = 0;
+        let advisingDuration = 0;
+        let financeCount = 0;
+        let financeDuration = 0;
+        let itCount = 0;
+        let itDuration = 0;
+        let registrationCount = 0;
+        let registrationDuration = 0;
+
+        for (let i = 0; i < services.length; i++) {
+            if (services[i].id === 1) {
+                advisingDuration = services[i].expectedDuration;
+            }
+            else if (services[i].id === 2) {
+                financeDuration = services[i].expectedDuration;
+            }
+            else if (services[i].id === 3) {
+                itDuration = services[i].expectedDuration;
+            }
+            else if (services[i].id === 4) {
+                registrationDuration = services[i].expectedDuration;
+            }
+        }
+
+        for (let i = 0; i < queue.length; i++) {
+            if (queue[i].serviceId === 1) {
+                advisingCount++;
+            }
+            else if (queue[i].serviceId === 2) {
+                financeCount++;
+            }
+            else if (queue[i].serviceId === 3) {
+                itCount++;
+            }
+            else if (queue[i].serviceId === 4) {
+                registrationCount++;
+            }
+        }
+
+        let advisingTime = 0;
+        let financeTime = 0;
+        let itTime = 0;
+        let registrationTime = 0;
+
+        advisingTime = estWaitTime(advisingCount, advisingDuration);
+        financeTime = estWaitTime(financeCount, financeDuration);
+        itTime = estWaitTime(itCount, itDuration);
+        registrationTime = estWaitTime(registrationCount, registrationDuration);
+
+        document.getElementById("advisingCount").textContent = advisingCount;
+        document.getElementById("advisingTime").textContent = advisingTime + " Minutes";
+
+        document.getElementById("financeCount").textContent = financeCount;
+        document.getElementById("financeTime").textContent = financeTime + " Minutes";
+
+        document.getElementById("itCount").textContent = itCount;
+        document.getElementById("itTime").textContent = itTime + " Minutes";
+
+        document.getElementById("registrationCount").textContent = registrationCount;
+        document.getElementById("registrationTime").textContent = registrationTime + " Minutes";
+    
+    }
+
+
+dashBoard();
 </script>
 
 <script>
-const user = JSON.parse(localStorage.getItem("qs_user"));
-if (!user || user.role !== "admin") {
-  window.location.href = "login.html";
+function logout() {
+localStorage.removeItem("qs_email");
+localStorage.removeItem("qs_role");
+localStorage.removeItem("qs_user");
+window.location.href = "login.html";
 }
+</script>
+
+
+
+<script>
+//const user = JSON.parse(localStorage.getItem("qs_user"));
+//if (!user || user.role !== "admin") {
+//  window.location.href = "login.html";
+//}
 </script>
 
 </body>
