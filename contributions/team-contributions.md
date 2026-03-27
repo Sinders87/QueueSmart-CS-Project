@@ -1,7 +1,10 @@
 # Team Contributions
 
-This section describes each team member’s primary contributions to Assignment 1 (A1).
+This section describes each team member’s primary contributions.
 GitHub commit history reflects these contributions.
+
+
+Team Contributions — Assignment 1 (A1)
 
 Storm Pino: High-level data model design, authentication and role-based access design, database-related documentation
 
@@ -23,3 +26,5 @@ aalakha: User-facing screens including dashboard, queue interaction, status trac
  
 Joel: Administrator-facing screens and service/queue management interfaces
  
+
+Team Contributions — Assignment 3 (A3)
