@@ -51,8 +51,13 @@ function addNotification(message, role) {
 let selectedService = null;
 
 async function loadPage() {
-  const services = await loadJSON("../mock-data/services.json");
-  const queue = await loadJSON("../mock-data/queue.json");
+  const servicesRes = await fetch("http://localhost:3000/api/services");
+  const servicesData = await servicesRes.json();
+  const services = servicesData.data || servicesData;
+
+  const queueRes = await fetch("http://localhost:3000/api/queue");
+  const queueData = await queueRes.json();
+  const queue = queueData.data || queueData;
   window._services = services;
   window._queue = queue;
 
