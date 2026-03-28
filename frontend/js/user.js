@@ -55,66 +55,78 @@ function mockNotifications() {
 }
 
 async function loadDashboard() {
-  const role = localStorage.getItem("qs_role") || "user";
+  const role = localStorage.getItem("qs_role") || "user";
 
-  let queue = [];
-  let services = [];
-  let notifications = [];
+  let queue = [];
+  let services = [];
+  let notifications = [];
 
-  try {
-    if (typeof loadQueue === "function") queue = await loadQueue();
-    else queue = await loadJSON("../mock-data/queue.json");
+  try {
+    const queueRes = await fetch("http://localhost:3000/api/queue");
+    const queueData = await queueRes.json();
+    queue = queueData.data || queueData;
 
-    if (typeof loadServices === "function") services = await loadServices();
-    else services = await loadJSON("../mock-data/services.json");
+    const servicesRes = await fetch("http://localhost:3000/api/services");
+    const servicesData = await servicesRes.json();
+    services = servicesData.data || servicesData;
 
-    if (typeof loadNotifications === "function") notifications = await loadNotifications();
-    else notifications = await loadJSON("../mock-data/notifications.json");
-  } catch {
-    queue = await loadJSON("../mock-data/queue.json");
-    services = await loadJSON("../mock-data/services.json");
-    notifications = await loadJSON("../mock-data/notifications.json");
-  }
+    try {
+      const notifRes = await fetch("http://localhost:3000/api/notifications");
+      const notifData = await notifRes.json();
+      notifications = notifData.data || notifData;
+    } catch {
+      const historyRes = await fetch("http://localhost:3000/api/history");
+      const historyData = await historyRes.json();
+      notifications = historyData.data || historyData;
+    }
+  } catch {
+    queue = await loadJSON("../mock-data/queue.json");
+    services = await loadJSON("../mock-data/services.json");
+    notifications = await loadJSON("../mock-data/notifications.json");
+  }
 
-  const user = queue.find(q => q.userName === "Blake") || queue[0] || { status: "waiting", position: "—", estimatedWait: "—" };
+  const user = queue[0] || { status: "waiting", position: "—", estimatedWait: "—" };
 
-  const statusText = user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : "—";
-  document.getElementById("statusText").textContent = statusText;
-  document.getElementById("positionText").textContent = user.position ?? "—";
-  document.getElementById("waitText").textContent = user.estimatedWait ?? "—";
+  const statusText = user.status
+    ? user.status.charAt(0).toUpperCase() + user.status.slice(1)
+    : "—";
 
-  const activeServices = (services || []).filter(s => s.isActive);
-  document.getElementById("serviceTable").innerHTML = activeServices.map(s => `
-    <tr>
-      <td><strong>${s.name}</strong></td>
-      <td>${s.expectedDuration} min</td>
-      <td><span class="pill pill-open">Open</span></td>
-    </tr>
-  `).join("");
+  document.getElementById("statusText").textContent = statusText;
+  document.getElementById("positionText").textContent = user.position ?? "—";
+  document.getElementById("waitText").textContent = user.estimatedWait ?? "—";
 
-  const stored = getStoredNotifications();
-  if (stored.length > 0) {
-    notifications = stored;
-  } else {
-    notifications = notifications || [];
-  }
+  const activeServices = (services || []).filter(s => s.isActive);
+  document.getElementById("serviceTable").innerHTML = activeServices.map(s => `
+    <tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.expectedDuration} min</td>
+      <td><span class="pill pill-open">Open</span></td>
+    </tr>
+  `).join("");
 
-  const filteredNotifs = (notifications || []).filter(n => !n.role || n.role === role);
+  const stored = getStoredNotifications();
+  if (stored.length > 0) {
+    notifications = stored;
+  } else {
+    notifications = notifications || [];
+  }
 
-  document.getElementById("notifMeta").textContent = filteredNotifs.length + " new";
-  document.getElementById("notifList").innerHTML = filteredNotifs.map(n => {
-    const timeText = n.time || minutesAgoFromIso(n.created_at) || "";
-    const unreadClass = (n.read === true) ? "" : "unread";
-    return `
-      <div class="notif-item">
-        <div class="notif-dot ${unreadClass}"></div>
-        <div>
-          <div class="notif-text">${n.message || ""}</div>
-          <div class="notif-time">${timeText}</div>
-        </div>
-      </div>
-    `;
-  }).join("");
+  const filteredNotifs = (notifications || []).filter(n => !n.role || n.role === role);
+
+  document.getElementById("notifMeta").textContent = filteredNotifs.length + " new";
+  document.getElementById("notifList").innerHTML = filteredNotifs.map(n => {
+    const timeText = n.time || minutesAgoFromIso(n.created_at) || "";
+    const unreadClass = n.read === true ? "" : "unread";
+    return `
+      <div class="notif-item">
+        <div class="notif-dot ${unreadClass}"></div>
+        <div>
+          <div class="notif-text">${n.message || n.serviceName || ""}</div>
+          <div class="notif-time">${timeText}</div>
+        </div>
+      </div>
+    `;
+  }).join("");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
