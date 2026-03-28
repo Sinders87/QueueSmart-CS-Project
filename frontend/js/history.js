@@ -21,7 +21,9 @@ function formatDate(dateStr) {
 }
 
 async function loadHistory() {
-  const history = await loadJSON("../mock-data/history.json");
+  const res = await fetch("http://localhost:3000/api/history");
+  const data = await res.json();
+  const history = data.data || data;
   const tbody   = document.getElementById("historyTable");
 
   if (!history.length) {
