@@ -24,7 +24,9 @@ const STATUS_STEP = {
 };
 
 async function loadStatus() {
-  const queue = await loadJSON("../mock-data/queue.json");
+  const res = await fetch("http://localhost:3000/api/queue");
+  const data = await res.json();
+  const queue = data.data || data;
 
   // Current user = Blake (position 2)
   const user = queue.find(q => q.userName === "Blake") || queue[0];
