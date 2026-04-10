@@ -1,3 +1,6 @@
+const db = require('./db');
+
+
 let services = [
   { id: 1, name: 'Academic Advising', description: 'Meet with an academic advisor to discuss degree planning', expectedDuration: 15, priority: 'medium', isActive: true },
   { id: 2, name: 'Financial Aid Assistance', description: 'Help with FAFSA and financial aid questions', expectedDuration: 20, priority: 'high', isActive: true },
@@ -22,13 +25,66 @@ let users = [
 let nextQueueId = 300, nextHistoryId = 3, nextServiceId = 5, nextUserId = 4;
 module.exports = {
   getServices: () => services, getQueue: () => queue, getHistory: () => history,
-  getNotifications: () => notifications, getUsers: () => users,
+  getNotifications: () => {
+    return new Promise((resolve, reject) => {
+      db.all(
+        `SELECT * FROM notifications ORDER BY datetime(created_at) DESC`,
+        [],
+        (err, rows) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(rows);
+        }
+      );
+    });
+  },
+  getUsers: () => users,
   setServices: (s) => { services = s; }, setQueue: (q) => { queue = q; }, setHistory: (h) => { history = h; },
   nextQueueId: () => nextQueueId++, nextHistoryId: () => nextHistoryId++,
   nextServiceId: () => nextServiceId++, nextUserId: () => nextUserId++,
-  addNotification(message, userName, role = 'user') {
-    notifications.unshift({ id: Date.now(), userName, role, message, read: false, created_at: new Date().toISOString() });
+  addNotification(message, userName, role = 'user', status = 'sent') {
+    return new Promise((resolve, reject) => {
+      const createdAt = new Date().toISOString();
+
+      db.run(
+        `INSERT INTO notifications (userName, role, message, status, created_at)
+        VALUES (?, ?, ?, ?, ?)`,
+        [userName, role, message, status, createdAt],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+          resolve({
+            id: this.lastID,
+            userName,
+            role,
+            message,
+            status,
+            created_at: createdAt
+          });
+        }
+      );
+    });
   },
+
+  markAsViewed: (id) => {
+    return new Promise((resolve, reject) => {
+      db.run(
+        `UPDATE notifications
+        SET status = 'viewed'
+        WHERE id = ?`,
+        [id],
+        function (err) {
+          if (err) {
+            return reject(err);
+          }
+          resolve({ updated: this.changes });
+        }
+      );
+    });
+  },
+  
   reset() {
     services = [
       { id: 1, name: 'Academic Advising', description: 'Meet with an academic advisor to discuss degree planning', expectedDuration: 15, priority: 'medium', isActive: true },

@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const store = require('../data/store');
 const { validateRequired, validateString } = require('../utils/validation');
-const { recalcWaitTimes } = require('../utils/waitTime');
+const { recalcWaitTimes, estimateWait } = require('../utils/waitTime');
+//const { addNotification } = require('../utils/notificationsDb');
 
 router.get('/', (req, res) => {
   res.json(store.getQueue());
@@ -22,7 +23,7 @@ router.get('/user/:userName', (req, res) => {
   res.json(entry);
 });
 
-router.post('/join', (req, res) => {
+router.post('/join', async (req, res) => {
   const { serviceId, userName } = req.body;
   const missing = validateRequired(['serviceId', 'userName'], req.body);
   if (missing) return res.status(400).json({ error: missing });
@@ -40,7 +41,7 @@ router.post('/join', (req, res) => {
     e => e.serviceId === sid && e.status === 'waiting'
   );
   const position = waitingInService.length + 1;
-  const estimatedWait = Math.max(0, (position - 1) * service.expectedDuration);
+  const estimatedWait = estimateWait(service, position);
   const newEntry = {
     id: store.nextQueueId(),
     serviceId: sid,
@@ -78,7 +79,7 @@ router.delete('/leave', (req, res) => {
     outcome: 'left',
     userName
   });
-  recalcWaitTimes(sid);
+  recalcWaitTimes(queue, service);
   res.json({ message: 'Left queue successfully', entry: removed });
 });
 
@@ -111,7 +112,7 @@ router.post('/serve-next/:serviceId', (req, res) => {
     outcome: 'served',
     userName: served.userName
   });
-  recalcWaitTimes(sid);
+  recalcWaitTimes(queue, service);
   res.json({ message: `${served.userName} is now being served`, entry: served });
 });
 
