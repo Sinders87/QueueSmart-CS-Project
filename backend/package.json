@@ -1,25 +1,26 @@
 {
-  "name": "queuesmart-backend",
-  "version": "1.0.0",
-  "description": "QueueSmart backend",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "test": "jest --coverage"
-  },
-  "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "sqlite3": "^6.0.1"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0",
-    "supertest": "^6.3.4"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "author": "",
-  "license": "ISC"
+"name": "queuesmart-backend",
+"version": "1.0.0",
+"description": "QueueSmart backend",
+"main": "server.js",
+"scripts": {
+"start": "node server.js",
+"dev": "node server.js",
+"test": "jest --coverage"
+},
+"dependencies": {
+"bcrypt": "^5.1.1",
+"cors": "^2.8.5",
+"express": "^4.18.2",
+"sqlite3": "^5.1.7"
+},
+"devDependencies": {
+"jest": "^29.7.0",
+"supertest": "^6.3.4"
+},
+"jest": {
+"testEnvironment": "node"
+},
+"author": "",
+"license": "ISC"
 }
