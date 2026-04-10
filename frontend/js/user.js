@@ -1,127 +1,105 @@
 function minutesAgoFromIso(iso) {
-  if (!iso) return "";
-  const t = new Date(iso).getTime();
-  if (Number.isNaN(t)) return "";
-  const diffMin = Math.max(0, Math.round((Date.now() - t) / 60000));
-  if (diffMin === 0) return "Just now";
-  if (diffMin === 1) return "1 min ago";
-  return diffMin + " min ago";
+  if (!iso) return "";
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return "";
+  const diffMin = Math.max(0, Math.round((Date.now() - t) / 60000));
+
+  if (diffMin === 0) return "Just now";
+  if (diffMin === 1) return "1 min ago";
+  return `${diffMin} min ago`;
 }
 
 function getStoredNotifications() {
-  try {
-    const arr = JSON.parse(localStorage.getItem("qs_notifications") || "[]");
-    return Array.isArray(arr) ? arr : [];
-  } catch {
-    return [];
-  }
-}
-
-async function loadJSON(path) {
-  try {
-    const res = await fetch(path);
-    if (!res.ok) throw new Error();
-    return res.json();
-  } catch {
-    if (path.includes("queue")) return mockQueue();
-    if (path.includes("services")) return mockServices();
-    if (path.includes("notifications")) return mockNotifications();
-    return [];
-  }
-}
-
-function mockQueue() {
-  return [
-    { id: 101, serviceId: 1, userName: "Alex", status: "waiting", position: 1, estimatedWait: 0 },
-    { id: 102, serviceId: 1, userName: "Blake", status: "waiting", position: 2, estimatedWait: 15 },
-    { id: 201, serviceId: 2, userName: "Casey", status: "waiting", position: 1, estimatedWait: 0 }
-  ];
-}
-
-function mockServices() {
-  return [
-    { id: 1, name: "Academic Advising", description: "Meet with an academic advisor to discuss degree planning", expectedDuration: 15, priority: "medium", isActive: true },
-    { id: 2, name: "Financial Aid Assistance", description: "Help with FAFSA and financial aid questions", expectedDuration: 20, priority: "high", isActive: true },
-    { id: 3, name: "IT Help Desk", description: "Technical support for university systems", expectedDuration: 10, priority: "low", isActive: true },
-    { id: 4, name: "Registration Support", description: "Assistance with course registration issues", expectedDuration: 12, priority: "medium", isActive: true }
-  ];
-}
-
-function mockNotifications() {
-  return [
-    { id: 1, role: "user", message: "You joined Academic Advising. Current position: 2", read: false, created_at: new Date(Date.now() - 2 * 60000).toISOString() },
-    { id: 2, role: "user", message: "You are close to being served", read: false, created_at: new Date().toISOString() }
-  ];
-}
-
-async function loadDashboard() {
-  const role = localStorage.getItem("qs_role") || "user";
-
-  let queue = [];
-  let services = [];
-  let notifications = [];
-
   try {
-    const queueRes = await fetch("http://localhost:3000/api/queue");
-    const queueData = await queueRes.json();
-    queue = queueData.data || queueData;
-
-    const servicesRes = await fetch("http://localhost:3000/api/services");
-    const servicesData = await servicesRes.json();
-    services = servicesData.data || servicesData;
-
-    try {
-      const notifRes = await fetch("http://localhost:3000/api/notifications");
-      const notifData = await notifRes.json();
-      notifications = notifData.data || notifData;
-    } catch {
-      const historyRes = await fetch("http://localhost:3000/api/history");
-      const historyData = await historyRes.json();
-      notifications = historyData.data || historyData;
-    }
+    const arr = JSON.parse(localStorage.getItem("qs_notifications") || "[]");
+    return Array.isArray(arr) ? arr : [];
   } catch {
-    queue = await loadJSON("../mock-data/queue.json");
-    services = await loadJSON("../mock-data/services.json");
-    notifications = await loadJSON("../mock-data/notifications.json");
+    return [];
+  }
+}
+
+async function fetchApi(url) {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Request failed: ${url}`);
   }
 
-  const user = queue[0] || { status: "waiting", position: "—", estimatedWait: "—" };
+  const data = await res.json();
+  return data.data || data;
+}
 
-  const statusText = user.status
-    ? user.status.charAt(0).toUpperCase() + user.status.slice(1)
+function renderStatus(queue) {
+  const currentUser = queue[0] || {
+    status: "waiting",
+    position: "—",
+    estimatedWait: "—"
+  };
+
+  const statusText = currentUser.status
+    ? currentUser.status.charAt(0).toUpperCase() + currentUser.status.slice(1)
     : "—";
 
   document.getElementById("statusText").textContent = statusText;
-  document.getElementById("positionText").textContent = user.position ?? "—";
-  document.getElementById("waitText").textContent = user.estimatedWait ?? "—";
+  document.getElementById("positionText").textContent = currentUser.position ?? "—";
+  document.getElementById("waitText").textContent = currentUser.estimatedWait ?? "—";
+}
 
-  const activeServices = (services || []).filter(s => s.isActive);
-  document.getElementById("serviceTable").innerHTML = activeServices.map(s => `
+function renderServices(services) {
+  const table = document.getElementById("serviceTable");
+  const activeServices = (services || []).filter(service => service.isActive);
+
+  if (!activeServices.length) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="3" style="text-align:center; padding:20px;">No active services found.</td>
+      </tr>
+    `;
+    return;
+  }
+
+  table.innerHTML = activeServices.map(service => `
     <tr>
-      <td><strong>${s.name}</strong></td>
-      <td>${s.expectedDuration} min</td>
+      <td><strong>${service.name}</strong></td>
+      <td>${service.expectedDuration} min</td>
       <td><span class="pill pill-open">Open</span></td>
     </tr>
   `).join("");
+}
 
-  const stored = getStoredNotifications();
-  if (stored.length > 0) {
-    notifications = stored;
-  } else {
-    notifications = notifications || [];
+function renderNotifications(notifications, role) {
+  const notifMeta = document.getElementById("notifMeta");
+  const notifList = document.getElementById("notifList");
+
+  const storedNotifications = getStoredNotifications();
+  const sourceNotifications = storedNotifications.length > 0 ? storedNotifications : notifications;
+
+  const filtered = (sourceNotifications || []).filter(item => !item.role || item.role === role);
+
+  notifMeta.textContent = `${filtered.length} new`;
+
+  if (!filtered.length) {
+    notifList.innerHTML = `
+      <div class="notif-item">
+        <div>
+          <div class="notif-text">No notifications yet.</div>
+        </div>
+      </div>
+    `;
+    return;
   }
 
-  const filteredNotifs = (notifications || []).filter(n => !n.role || n.role === role);
+  notifList.innerHTML = filtered.map(item => {
+    const unreadClass = item.read === true ? "" : "unread";
+    const timeText =
+      item.time ||
+      minutesAgoFromIso(item.created_at || item.timestamp) ||
+      "";
 
-  document.getElementById("notifMeta").textContent = filteredNotifs.length + " new";
-  document.getElementById("notifList").innerHTML = filteredNotifs.map(n => {
-    const timeText = n.time || minutesAgoFromIso(n.created_at) || "";
-    const unreadClass = n.read === true ? "" : "unread";
     return `
       <div class="notif-item">
         <div class="notif-dot ${unreadClass}"></div>
         <div>
-          <div class="notif-text">${n.message || n.serviceName || ""}</div>
+          <div class="notif-text">${item.message || item.serviceName || ""}</div>
           <div class="notif-time">${timeText}</div>
         </div>
       </div>
@@ -129,18 +107,56 @@ async function loadDashboard() {
   }).join("");
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadDashboard();
-});
+function renderDashboardError() {
+  document.getElementById("statusText").textContent = "Error";
+  document.getElementById("positionText").textContent = "—";
+  document.getElementById("waitText").textContent = "—";
 
-window.addEventListener("focus", () => {
-  loadDashboard();
-});
+  document.getElementById("serviceTable").innerHTML = `
+    <tr>
+      <td colspan="3" style="text-align:center; padding:20px;">Could not load services.</td>
+    </tr>
+  `;
 
-window.addEventListener("pageshow", () => {
-  loadDashboard();
-});
+  document.getElementById("notifMeta").textContent = "0 new";
+  document.getElementById("notifList").innerHTML = `
+    <div class="notif-item">
+      <div>
+        <div class="notif-text">Could not load notifications.</div>
+      </div>
+    </div>
+  `;
+}
+
+async function loadDashboard() {
+  const role = localStorage.getItem("qs_role") || "user";
+
+  try {
+    const queue = await fetchApi("http://localhost:3000/api/queue");
+    const services = await fetchApi("http://localhost:3000/api/services");
+
+    let notifications = [];
+    try {
+      notifications = await fetchApi("http://localhost:3000/api/notifications");
+    } catch {
+      notifications = await fetchApi("http://localhost:3000/api/history");
+    }
+
+    renderStatus(queue);
+    renderServices(services);
+    renderNotifications(notifications, role);
+  } catch (err) {
+    console.error("Dashboard load failed:", err);
+    renderDashboardError();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadDashboard);
+window.addEventListener("focus", loadDashboard);
+window.addEventListener("pageshow", loadDashboard);
 
 window.addEventListener("storage", (e) => {
-  if (e.key === "qs_notifications") loadDashboard();
+  if (e.key === "qs_notifications") {
+    loadDashboard();
+  }
 });
