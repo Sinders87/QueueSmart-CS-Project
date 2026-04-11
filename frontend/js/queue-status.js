@@ -1,10 +1,15 @@
-function formatDate(dateStr) {
-  const d = new Date(dateStr + "T00:00:00");
-  return d.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  });
+const STATUS_STEP = {
+  "waiting": "step-waiting",
+  "almost ready": "step-almost",
+  "served": "step-served"
+};
+
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem("qs_user") || "{}");
+  } catch {
+    return {};
+  }
 }
 
 async function fetchApi(url) {
@@ -17,46 +22,61 @@ async function fetchApi(url) {
   return data.data || data;
 }
 
-async function loadHistory() {
-  const tbody = document.getElementById("historyTable");
+function renderStatusError() {
+  document.getElementById("statusText").textContent = "Error";
+  document.getElementById("positionText").textContent = "—";
+  document.getElementById("waitText").textContent = "—";
+}
 
+async function loadStatus() {
   try {
-    const history = await fetchApi("http://localhost:3000/api/history");
+    const queue = await fetchApi("http://localhost:3000/api/queue");
+    const currentUser = getCurrentUser();
 
-    if (!Array.isArray(history) || history.length === 0) {
-      tbody.innerHTML = `
-        <tr>
-          <td colspan="3" style="color:#aaa; text-align:center; padding:28px;">
-            No history yet.
-          </td>
-        </tr>
-      `;
-      return;
-    }
+    const currentEntry =
+      queue.find(item => item.userId === currentUser.id && item.status === "waiting") ||
+      queue.find(item => item.userName === currentUser.name && item.status === "waiting") ||
+      queue[0] ||
+      {
+        status: "waiting",
+        position: "—",
+        estimatedWait: "—"
+      };
 
-    tbody.innerHTML = history.map(item => {
-      const pill = item.outcome === "served"
-        ? '<span class="pill pill-open">Served</span>'
-        : '<span class="pill pill-closed">Left Queue</span>';
+    const displayStatus = currentEntry.status
+      ? currentEntry.status.charAt(0).toUpperCase() + currentEntry.status.slice(1)
+      : "—";
 
-      return `
-        <tr>
-          <td>${formatDate(item.date)}</td>
-          <td><strong>${item.serviceName}</strong></td>
-          <td>${pill}</td>
-        </tr>
-      `;
-    }).join("");
+    document.getElementById("statusText").textContent = displayStatus;
+    document.getElementById("positionText").textContent = currentEntry.position ?? "—";
+    document.getElementById("waitText").textContent = currentEntry.estimatedWait ?? "—";
+
+    const steps = ["step-waiting", "step-almost", "step-served"];
+    const activeStep = STATUS_STEP[(currentEntry.status || "waiting").toLowerCase()] || "step-waiting";
+    const activeIndex = steps.indexOf(activeStep);
+
+    steps.forEach((id, index) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      el.classList.remove("step-active", "step-done");
+
+      if (index < activeIndex) {
+        el.classList.add("step-done");
+      } else if (index === activeIndex) {
+        el.classList.add("step-active");
+      }
+    });
   } catch (err) {
-    console.error("History load failed:", err);
-    tbody.innerHTML = `
-      <tr>
-        <td colspan="3" style="color:#aaa; text-align:center; padding:28px;">
-          Could not load history.
-        </td>
-      </tr>
-    `;
+    console.error("Queue status load failed:", err);
+    renderStatusError();
   }
 }
 
-document.addEventListener("DOMContentLoaded", loadHistory);
+function leaveQueue() {
+  if (confirm("Are you sure you want to leave the queue?")) {
+    window.location.href = "user-dashboard.html";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadStatus);
