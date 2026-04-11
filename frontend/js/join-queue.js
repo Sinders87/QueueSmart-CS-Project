@@ -128,9 +128,9 @@ async function joinQueue() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          userId: 1,
-          serviceId: selectedService.id
-        })
+  serviceId: selectedService.id,
+  userName: JSON.parse(localStorage.getItem("qs_user"))?.name || localStorage.getItem("qs_email") || "Guest"
+})
       });
 
       position = result.position || position;
