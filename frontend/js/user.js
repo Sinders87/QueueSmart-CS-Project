@@ -18,6 +18,14 @@ function getStoredNotifications() {
   }
 }
 
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem("qs_user") || "{}");
+  } catch {
+    return {};
+  }
+}
+
 async function fetchApi(url) {
   const res = await fetch(url);
   if (!res.ok) {
@@ -29,19 +37,25 @@ async function fetchApi(url) {
 }
 
 function renderStatus(queue) {
-  const currentUser = queue[0] || {
-    status: "waiting",
-    position: "—",
-    estimatedWait: "—"
-  };
+  const currentUser = getCurrentUser();
 
-  const statusText = currentUser.status
-    ? currentUser.status.charAt(0).toUpperCase() + currentUser.status.slice(1)
+  const currentEntry =
+    queue.find(item => item.userId === currentUser.id && item.status === "waiting") ||
+    queue.find(item => item.userName === currentUser.name && item.status === "waiting") ||
+    queue[0] ||
+    {
+      status: "waiting",
+      position: "—",
+      estimatedWait: "—"
+    };
+
+  const statusText = currentEntry.status
+    ? currentEntry.status.charAt(0).toUpperCase() + currentEntry.status.slice(1)
     : "—";
 
   document.getElementById("statusText").textContent = statusText;
-  document.getElementById("positionText").textContent = currentUser.position ?? "—";
-  document.getElementById("waitText").textContent = currentUser.estimatedWait ?? "—";
+  document.getElementById("positionText").textContent = currentEntry.position ?? "—";
+  document.getElementById("waitText").textContent = currentEntry.estimatedWait ?? "—";
 }
 
 function renderServices(services) {
