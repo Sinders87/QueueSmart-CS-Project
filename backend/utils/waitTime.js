@@ -1,23 +1,31 @@
-//const store = require('../data/store');
-
 function estimateWait(service, position) {
-  //const service = store.getServices().find(s => s.id === serviceId);
-  if (!service) return 0;
-  return Math.max(0, (position - 1) * service.expectedDuration);
+  const expectedDuration = Number(service.expectedDuration || service.expected_duration || 10);
+
+  let waitTime = (position - 1) * expectedDuration;
+
+  if (service.priority === "high") {
+    waitTime = Math.max(0, waitTime - 5);
+  }
+
+  if (position >= 4) {
+    waitTime += 5;
+  }
+
+  return waitTime;
 }
 
 function recalcWaitTimes(queue, service) {
-  //const queue = store.getQueue();
-  const serviceEntries = queue
-    .filter(e => e.serviceId === service.id && e.status === 'waiting')
-    .sort((a, b) => a.position - b.position);
+  const waiting = queue
+    .filter(entry => entry.serviceId === service.id && entry.status === "waiting")
+    .sort((a, b) => a.position - b.position);
 
-  serviceEntries.forEach((entry, idx) => {
-    entry.position = idx + 1;
-    entry.estimatedWait = estimateWait(service, idx + 1);
-  });
-
-  return serviceEntries;
+  waiting.forEach((entry, index) => {
+    entry.position = index + 1;
+    entry.estimatedWait = estimateWait(service, entry.position);
+  });
 }
 
-module.exports = { estimateWait, recalcWaitTimes };
+module.exports = {
+  estimateWait,
+  recalcWaitTimes
+};
