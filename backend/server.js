@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth");
 const historyRoutes = require("./routes/history");
 const queueRoutes = require("./routes/queue");
 const servicesRoutes = require("./routes/services");
+const reportsRoutes = require("./routes/reports");
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/history", historyRoutes);
 app.use("/api/queue", queueRoutes);
 app.use("/api/services", servicesRoutes);
+app.use("/api/reports", reportsRoutes);
 
 app.get("/", (req, res) => {
   res.json({
