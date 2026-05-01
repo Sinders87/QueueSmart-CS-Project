@@ -41,6 +41,7 @@ async function loadHistory() {
         </tr>
       `;
     }).join("");
+
   } catch (err) {
     console.error("History load failed:", err);
     tbody.innerHTML = `
