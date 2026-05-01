@@ -1,27 +1,25 @@
-function estimateWait(service, position) {
-  const expectedDuration = Number(service.expectedDuration || service.expected_duration || 10);
+function estimateWait(service, position, history = []) {
+  const expectedDuration = Number(service.expectedDuration || 10);
 
-  let waitTime = (position - 1) * expectedDuration;
+  let historicalAdjustment = 1;
 
-  if (service.priority === "high") {
-    waitTime = Math.max(0, waitTime - 5);
+  if (history.length > 5) {
+    historicalAdjustment = 0.9;
   }
 
-  if (position >= 4) {
-    waitTime += 5;
-  }
+  let waitTime = (position - 1) * expectedDuration * historicalAdjustment;
 
-  return waitTime;
+  return Math.max(0, Math.round(waitTime));
 }
 
-function recalcWaitTimes(queue, service) {
+function recalcWaitTimes(queue, service, history = []) {
   const waiting = queue
-    .filter(entry => entry.serviceId === service.id && entry.status === "waiting")
+    .filter(e => e.serviceId === service.id && e.status === 'waiting')
     .sort((a, b) => a.position - b.position);
 
   waiting.forEach((entry, index) => {
     entry.position = index + 1;
-    entry.estimatedWait = estimateWait(service, entry.position);
+    entry.estimatedWait = estimateWait(service, entry.position, history);
   });
 }
 
