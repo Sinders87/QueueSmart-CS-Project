@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html lang="en">
 <head>
-    <meta charset = "UTF-8">
+    <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel = "stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
@@ -12,133 +12,135 @@
     <a href="#" onclick="logout()">Logout</a>
   </div>
     
-  <div class = "login-box" style = "width: 800px; margin: 50px; padding: 30px;">
+  <div class="login-box" style="width: 800px; margin: 50px; padding: 30px;">
    <h2>Admin Dashboard</h2>
    
    <hr>
 
-   <h3 align = "center">List of Services</h3>
-   <ul id = "servicesList">
-        <li align = "center">
-            <a href = "advisingqueue.html">Academic Advising</a>
+   <h3 align="center">List of Services</h3>
+   <ul id="servicesList">
+        <li align="center">
+            <a href="advisingqueue.html">Academic Advising</a>
         </li>
-        <li align = "center">
-            <a href = "financequeue.html">Aid Assistance</a>
+        <li align="center">
+            <a href="financequeue.html">Aid Assistance</a>
         </li>
-        
-        <li align = "center">
-            <a href = "ITqueue.html">IT Help Desk</a>
+        <li align="center">
+            <a href="ITqueue.html">IT Help Desk</a>
         </li>
-        <li align = "center">
-            <a href = "registrationqueue.html">Registration Support</a>
+        <li align="center">
+            <a href="registrationqueue.html">Registration Support</a>
         </li>
-
     </ul>
-   <br>
-   <a href = "servicemanagement.html"><button type = "submit">Create/Edit Service</button></a>
-   <br>
-   <a href = "http://localhost:3000/api/reports/queue.csv"><button type = "button">Download Queue CSV Report</button></a>
-   <br>
-   
-   <h3 align = "center">Current Queue Length</h3>
 
-   <table bgcolor = "black" align = "center">
-        <tr bgcolor = "grey">
-            <th width = "100" style="color: black;">Advising</th>
-            <th width = "100" style="color: black;">Estimated Wait Time</th>
+   <br>
+
+   <a href="servicemanagement.html">
+     <button type="button">Create/Edit Service</button>
+   </a>
+
+   <br>
+
+   <a href="http://localhost:3000/api/reports/queue.csv">
+     <button type="button">Download Queue CSV Report</button>
+   </a>
+
+   <br>
+
+   <h3 align="center">Current Queue Length</h3>
+
+   <table bgcolor="black" align="center">
+        <tr bgcolor="grey">
+            <th width="100" style="color: black;">Advising</th>
+            <th width="100" style="color: black;">Estimated Wait Time</th>
         </tr>
-        <tr bgcolor = "lightgrey" align = "center">
-            <td id = "advisingCount" width = "100" style="color: black;">0</td>
-            <td id = "advisingTime" width = "100" style="color: black;">0 Minutes</td>
+        <tr bgcolor="lightgrey" align="center">
+            <td id="advisingCount">0</td>
+            <td id="advisingTime">0 Minutes</td>
         </tr>
    </table>
 
-   <div class = "role-box">
-    <label class = "role-option">
-        <input type = "radio" name = "advisingaction" value = "open">
+   <div class="role-box">
+    <label class="role-option">
+        <input type="radio" name="advisingaction" value="open">
         <span>Open Queue</span>
     </label>
-
-    <label class = "role-option">
-        <input type = "radio" name = "advisingaction" value = "close">
+    <label class="role-option">
+        <input type="radio" name="advisingaction" value="close">
         <span>Close Queue</span>
     </label>
    </div>
 
-   <table bgcolor = "black" align = "center">
-        <tr bgcolor = "grey">
-            <th width = "100" style="color: black;">Financial Aid</th>
-            <th width = "100" style="color: black;">Estimated Wait Time</th>
+   <table bgcolor="black" align="center">
+        <tr bgcolor="grey">
+            <th width="100" style="color: black;">Financial Aid</th>
+            <th width="100" style="color: black;">Estimated Wait Time</th>
         </tr>
-        <tr bgcolor = "lightgrey" align = "center">
-            <td id = "financeCount" width = "100" style="color: black;">0</td>
-            <td id = "financeTime" width = "100" style="color: black;">0 Minutes</td>
+        <tr bgcolor="lightgrey" align="center">
+            <td id="financeCount">0</td>
+            <td id="financeTime">0 Minutes</td>
         </tr>
    </table>
 
-   <div class = "role-box">
-    <label class = "role-option">
-        <input type = "radio" name = "financialaction" value = "open">
+   <div class="role-box">
+    <label class="role-option">
+        <input type="radio" name="financialaction" value="open">
         <span>Open Queue</span>
     </label>
-
-    <label class = "role-option">
-        <input type = "radio" name = "financialaction" value = "close">
+    <label class="role-option">
+        <input type="radio" name="financialaction" value="close">
         <span>Close Queue</span>
     </label>
    </div>
 
-   <table bgcolor = "black" align = "center">
-        <tr bgcolor = "grey">
-            <th width = "100" style="color: black;">IT Help Desk</th>
-            <th width = "100" style="color: black;">Estimated Wait Time</th>
+   <table bgcolor="black" align="center">
+        <tr bgcolor="grey">
+            <th width="100" style="color: black;">IT Help Desk</th>
+            <th width="100" style="color: black;">Estimated Wait Time</th>
         </tr>
-        <tr bgcolor = "lightgrey" align = "center">
-            <td id = "itCount" width = "100" style="color: black;">0</td>
-            <td id = "itTime" width = "100" style="color: black;">0 Minutes</td>
+        <tr bgcolor="lightgrey" align="center">
+            <td id="itCount">0</td>
+            <td id="itTime">0 Minutes</td>
         </tr>
    </table>
 
-   <div class = "role-box">
-    <label class = "role-option">
-        <input type = "radio" name = "itaction" value = "open">
+   <div class="role-box">
+    <label class="role-option">
+        <input type="radio" name="itaction" value="open">
         <span>Open Queue</span>
     </label>
-
-    <label class = "role-option">
-        <input type = "radio" name = "itaction" value = "close">
+    <label class="role-option">
+        <input type="radio" name="itaction" value="close">
         <span>Close Queue</span>
     </label>
    </div>
 
-   <table bgcolor = "black" align = "center">
-        <tr bgcolor = "grey">
-            <th width = "100" style="color: black;">Registration</th>
-            <th width = "100" style="color: black;">Estimated Wait Time</th>
+   <table bgcolor="black" align="center">
+        <tr bgcolor="grey">
+            <th width="100" style="color: black;">Registration</th>
+            <th width="100" style="color: black;">Estimated Wait Time</th>
         </tr>
-        <tr bgcolor = "lightgrey" align = "center">
-            <td id = "registrationCount" width = "100" style="color: black;">0</td>
-            <td id = "registrationTime" width = "100" style="color: black;">0 Minutes</td>
+        <tr bgcolor="lightgrey" align="center">
+            <td id="registrationCount">0</td>
+            <td id="registrationTime">0 Minutes</td>
         </tr>
    </table>
 
-   <div class = "role-box">
-    <label class = "role-option">
-        <input type = "radio" name = "registrationaction" value = "open">
+   <div class="role-box">
+    <label class="role-option">
+        <input type="radio" name="registrationaction" value="open">
         <span>Open Queue</span>
     </label>
-
-    <label class = "role-option">
-        <input type = "radio" name = "registrationaction" value = "close">
+    <label class="role-option">
+        <input type="radio" name="registrationaction" value="close">
         <span>Close Queue</span>
     </label>
    </div>
 
   </div>
 
-   <script src="../js/data.js"></script>
-   <script src="../js/services.js"></script>
-   <script src = "../js/estWaitTime.js"></script>
+<script src="../js/data.js"></script>
+<script src="../js/estWaitTime.js"></script>
 
 <script>
 async function dashBoard() {
