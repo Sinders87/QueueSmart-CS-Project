@@ -81,6 +81,7 @@
 </main>
 
 <script src="../js/queue-status.js"></script>
+
 <script>
 function logout() {
   localStorage.removeItem("qs_email");
@@ -92,7 +93,7 @@ function logout() {
 
 <script>
 const user = JSON.parse(localStorage.getItem("qs_user"));
-if (!user) {
+if (!user || user.role !== "user") {
   window.location.href = "login.html";
 }
 </script>
