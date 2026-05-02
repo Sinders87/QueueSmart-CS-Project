@@ -1,8 +1,3 @@
-function getSelectedRole() {
-  const el = document.querySelector('input[name="role"]:checked');
-  return el ? el.value : "";
-}
-
 function saveSession(user) {
   localStorage.setItem("qs_email", user.email);
   localStorage.setItem("qs_role", user.role);
@@ -27,12 +22,23 @@ async function postJSON(url, payload) {
   return { res, data };
 }
 
+function getPageRole() {
+  const page = window.location.pathname;
+
+  if (page.includes("admin-login.html") || page.includes("admin-register.html")) {
+    return "admin";
+  }
+
+  return "user";
+}
+
 function wireLoginForm() {
   const form = document.getElementById("loginForm");
   if (!form) return;
 
   const emailEl = document.getElementById("email");
   const passEl = document.getElementById("password");
+  const role = getPageRole();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -40,8 +46,6 @@ function wireLoginForm() {
 
     const email = emailEl.value.trim();
     const password = passEl.value;
-    const role = getSelectedRole();
-    const roleBox = document.getElementById("roleBox");
 
     let ok = true;
 
@@ -53,13 +57,6 @@ function wireLoginForm() {
     if (!minLength(password, 6)) {
       setFieldError(passEl, "Password must be at least 6 characters");
       ok = false;
-    }
-
-    if (!role) {
-      if (roleBox) roleBox.textContent = "Select a role to continue";
-      ok = false;
-    } else {
-      if (roleBox) roleBox.textContent = "";
     }
 
     if (!ok) return;
@@ -79,11 +76,11 @@ function wireLoginForm() {
       saveSession(data.data);
 
       if (data.data.role === "admin") {
-        window.location.href = "../pages/admin-dashboard.html";
+        window.location.href = "admin-dashboard.html";
         return;
       }
 
-      window.location.href = "../pages/user-dashboard.html";
+      window.location.href = "user-dashboard.html";
     } catch (err) {
       alert("Could not connect to backend");
       console.error(err);
@@ -98,14 +95,13 @@ function wireRegisterForm() {
   const nameEl = document.getElementById("name");
   const emailEl = document.getElementById("email");
   const passEl = document.getElementById("password");
-  const roleBox = document.getElementById("roleBox");
   const successEl = document.getElementById("registerSuccess");
+  const role = getPageRole();
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     clearAllFieldErrors(form);
 
-    if (roleBox) roleBox.textContent = "";
     if (successEl) {
       successEl.style.display = "none";
       successEl.textContent = "";
@@ -114,7 +110,6 @@ function wireRegisterForm() {
     const name = nameEl ? nameEl.value.trim() : "";
     const email = emailEl ? emailEl.value.trim() : "";
     const password = passEl ? passEl.value : "";
-    const role = getSelectedRole();
 
     let ok = true;
 
@@ -130,11 +125,6 @@ function wireRegisterForm() {
 
     if (!passEl || !minLength(password, 6)) {
       if (passEl) setFieldError(passEl, "Password must be at least 6 characters");
-      ok = false;
-    }
-
-    if (!role) {
-      if (roleBox) roleBox.textContent = "Select a role to continue";
       ok = false;
     }
 
@@ -159,7 +149,6 @@ function wireRegisterForm() {
       }
 
       form.reset();
-      if (roleBox) roleBox.textContent = "";
     } catch (err) {
       alert("Could not connect to backend");
       console.error(err);
