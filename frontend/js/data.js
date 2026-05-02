@@ -9,19 +9,19 @@ async function fetchJson(path) {
 }
 
 async function loadServices() {
-  return await fetchJson("../mock-data/services.json");
+  return await fetchJson("http://localhost:3000/api/services");
 }
 
 async function loadQueue() {
-  return await fetchJson("../mock-data/queue.json");
+  return await fetchJson("http://localhost:3000/api/queue");
 }
 
 async function loadHistory() {
-  return await fetchJson("../mock-data/history.json");
+  return await fetchJson("http://localhost:3000/api/history");
 }
 
 async function loadNotifications() {
-  return await fetchJson("../mock-data/notifications.json");
+  return await fetchJson("http://localhost:3000/api/history");
 }
 
 window.loadServices = loadServices;
