@@ -52,7 +52,6 @@
                 <br>
 
                 <label for="minutes">Expected Duration (In Minutes):</label>
-
                 <input id="minutes" name="minutes-name" type="number" placeholder="Minutes (Required)" required>
                 <div id="minutes-nameError" class="field-error"></div>
 
@@ -88,6 +87,52 @@
     if (!user || user.role !== "admin") {
       window.location.href = "admin-login.html";
     }
+
+    document.getElementById("newService").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById("service-name").value.trim();
+      const description = document.getElementById("description").value.trim();
+      const priority = document.getElementById("priority").value;
+      const expectedDuration = Number(document.getElementById("minutes").value);
+      const successBox = document.getElementById("changeSuccess");
+
+      if (!name || !description || !expectedDuration) {
+        alert("Please fill out all required fields.");
+        return;
+      }
+
+      try {
+        const res = await fetch("http://localhost:3000/api/services", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name,
+            description,
+            expectedDuration,
+            priority,
+            isActive: true
+          })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.error || "Could not save service.");
+          return;
+        }
+
+        successBox.textContent = "Service saved successfully.";
+        successBox.style.display = "block";
+
+        this.reset();
+      } catch (err) {
+        alert("Could not connect to backend.");
+        console.error(err);
+      }
+    });
     </script>
 
 </body>
